@@ -1,0 +1,16 @@
+Project Folders
+===============
+Config
+    In this folder store all the configuration and credential details
+
+
+Controllers
+    In this folder having all the function of API Call. This is interconnected with modals and routes. routes navigate the API call to this folder.
+
+
+modals 
+    In this folder having all the schema defined here. Which is directly connected with controller and mongodb.
+
+
+routes
+    In this folder is directly linked in root file (server.j), and listen the API Calls, Routing to the respective controller file. 
