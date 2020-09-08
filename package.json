@@ -7,7 +7,7 @@
     "test": "nodemon server",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Muthupandi V",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
