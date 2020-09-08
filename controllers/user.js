@@ -48,13 +48,14 @@ exports.signup = function (req, res) {
                 password: req.body.password,
                 email: req.body.email,
                 role: req.body.role,
-                createdAt: createdAt
+                createdAt: new Date()
             });
             user.save(function (err, result) {
                 if (err) {
                     return res.status(400).send({
                         success: false,
-                        message: 'This Mobile Number already present',
+                        message: 'Email already present',
+                        error: err.toString()
                     });
                 } else {
                     return res.status(200).send({
@@ -78,34 +79,38 @@ exports.login = function (req, res) {
         if (!req.body.password)
             return res.status(400).send({ message: 'Password is required', success: false })
         else
-            UserSchema.findOne({ email: req.body.email }, function (err, result) {
-                if (err) {
-                    return res.status(400).send({
-                        success: false,
-                        message: 'Credentials are not match!',
-                    });
-                } else {
-                    if (result) {
-                        if (result.password === req.body.password) {
-                            return res.status(200).send({
-                                data: result,
-                                token: getToken(result) ? getToken(result) : null,
-                                message: 'User successfully logged in'
-                            });
+            UserSchema.findOneAndUpdate(
+                { email: req.body.email },
+                { lastLogin: new Date()},
+                { upsert: true, new: true },
+                function (err, result) {
+                    if (err) {
+                        return res.status(400).send({
+                            success: false,
+                            message: 'Credentials are not match!',
+                        });
+                    } else {
+                        if (result) {
+                            if (result.password === req.body.password) {
+                                return res.status(200).send({
+                                    data: result,
+                                    token: getToken(result) ? getToken(result) : null,
+                                    message: 'User successfully logged in'
+                                });
+                            } else {
+                                return res.status(400).send({
+                                    success: false,
+                                    message: 'Credentials are not match!'
+                                })
+                            }
                         } else {
                             return res.status(400).send({
                                 success: false,
                                 message: 'Credentials are not match!'
-                            })
+                            });
                         }
-                    } else {
-                        return res.status(400).send({
-                            success: false,
-                            message: 'Credentials are not match!'
-                        });
                     }
-                }
-            });
+                });
     } catch (err) {
         return res.status(500).send(err.toString());
     }
@@ -144,6 +149,27 @@ exports.forgetpassword = function (req, res) {
         }
     } catch (error) {
         return res.status(500).send({ message: error.toString() })
+    }
+}
+
+// get all user list
+exports.list = function (req, res) {
+    try {
+        UserSchema.find({}, function (err, result) {
+            if (err) {
+                res.status(404).send({
+                    success: false,
+                    message: 'No users found'
+                })
+            } else {
+                res.status(200).send({
+                    success: true,
+                    data: result
+                })
+            }
+        })
+    } catch (error) {
+        return res.status(500).send(error.toString());
     }
 }
 

@@ -5,7 +5,7 @@ const config = JSON.parse(fs.readFileSync(path.join(__dirname, "/config.json"), 
 const CONFIG = {}
 CONFIG.ENV = (process.env.NODE_ENV || config.env);
 
-if (config.env === 'development') {
+if (config.env == 'development') {
     CONFIG.port = (process.env.VCAP_APP_PORT || config.port);
     CONFIG.DB_URL = `mongodb://${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.database}`;
     CONFIG.secret = "youcanfindme";

@@ -9,7 +9,7 @@
     "live": {
         "host": "localhost",
         "port": "27017",
-        "database": "localfolks",
+        "database": "automation",
         "username": "localadmin",
         "password": "SOh3TbYhx8ypJPxmt1o"
     }

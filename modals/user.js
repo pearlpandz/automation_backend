@@ -11,7 +11,6 @@ const schema = new Schema({
         type: Number,
         trim: true,
         lowercase: true,
-        unique: 'This Mobile Number already present',
         required: 'Mobile Number is required'
     },
     password: { type: String },
