@@ -20,11 +20,7 @@ mongoose.connect(CONFIG.DB_URL, { useNewUrlParser: true }).then(() => {
 
 
 // NPM Packages use configuration
-// app.use(cors());
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-});
+app.use(cors());
 
 app.use(bodyParser.json());
 
