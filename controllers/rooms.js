@@ -1,229 +1,31 @@
-// Modals
-const RoomSchema = require('../modals/room');
+let mysql = require('mysql');
+const config = require('../config/config');
+let connection = mysql.createConnection(config);
 
-exports.list = async (req, res) => {
+exports.list = function (req, res) {
     try {
-        let pipeline = [
-            {
-                '$lookup': {
-                    'from': 'devices',
-                    'localField': 'devices.id',
-                    'foreignField': '_id',
-                    'as': 'deviceslist'
-                }
-            }, {
-                '$project': {
-                    '_id': 1,
-                    'name': 1,
-                    'boxId': 1,
-                }
+        let sql = `call iot.rooms_activelist(${req.decoded.id})`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                res.status(400).send(error.message);
             }
-        ]
-        var promise = RoomSchema.aggregate(pipeline).exec();
-
-        await promise.then((result) => {
-            res.status(200).send({
-                success: true,
-                data: result
-            })
-        }).catch((err) => {
-            res.status(404).send({
-                success: false,
-                message: 'No data found'
-            })
+            res.status(200).send(results[0]);
         });
-
-    } catch (error) {
-        return res.status(500).send(error.toString());
-    }
-}
-
-exports.listAll = async (req, res) => {
-    try {
-        let pipeline = [
-            {
-                '$lookup': {
-                    'from': 'devices',
-                    'localField': 'devices.refId',
-                    'foreignField': '_id',
-                    'as': 'deviceslist'
-                }
-            }, {
-                '$project': {
-                    '_id': 1,
-                    'name': 1,
-                    'boxId': 1,
-                    'userId': 1,
-                    'devices': {
-                        '$map': {
-                            'input': '$devices',
-                            'as': 'ri',
-                            'in': {
-                                '$mergeObjects': [
-                                    '$$ri', {
-                                        '$arrayElemAt': [
-                                            {
-                                                '$filter': {
-                                                    'input': '$deviceslist',
-                                                    'cond': {
-                                                        '$eq': [
-                                                            '$$this._id', '$$ri.refId'
-                                                        ]
-                                                    }
-                                                }
-                                            }, 0
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            }
-        ]
-
-        var promise = RoomSchema.aggregate(pipeline).exec();
-
-        await promise.then((result) => {
-            res.status(200).send({
-                success: true,
-                data: result
-            })
-        }).catch((err) => {
-            res.status(404).send({
-                success: false,
-                message: 'No data found'
-            })
-        });
-
-    } catch (error) {
-        return res.status(500).send(error.toString());
-    }
-}
-
-exports.singleGetRoom = async (req, res) => {
-    try {
-        let pipeline = [
-            {
-                '$match': {
-                    'boxId': req.params.id
-                }
-            }, {
-                '$lookup': {
-                    'from': 'devices',
-                    'localField': 'devices.refId',
-                    'foreignField': '_id',
-                    'as': 'deviceslist'
-                }
-            }, {
-                '$project': {
-                    '_id': 1,
-                    'name': 1,
-                    'boxId': 1,
-                    'userId': 1,
-                    'devices': {
-                        '$map': {
-                            'input': '$devices',
-                            'as': 'ri',
-                            'in': {
-                                '$mergeObjects': [
-                                    '$$ri', {
-                                        '$arrayElemAt': [
-                                            {
-                                                '$filter': {
-                                                    'input': '$deviceslist',
-                                                    'cond': {
-                                                        '$eq': [
-                                                            '$$this._id', '$$ri.refId'
-                                                        ]
-                                                    }
-                                                }
-                                            }, 0
-                                        ]
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                }
-            }
-        ]
-
-        var promise = RoomSchema.aggregate(pipeline).exec();
-
-        await promise.then((result) => {
-            res.status(200).send({
-                success: true,
-                data: result
-            })
-        }).catch((err) => {
-            res.status(404).send({
-                success: false,
-                message: 'No data found'
-            })
-        });
-
-    } catch (error) {
-        return res.status(500).send(error.toString());
-    }
-}
-
-exports.updateRoom = async (req, res) => {
-    try {
-        RoomSchema.updateOne(
-            { boxId: req.params.boxId, devices: { $elemMatch: { _id: req.params.id } } },
-            {
-                "$set": {
-                    "devices.$": {
-                        status: req.body.status, speed: req.body.speed
-                    }
-                },
-            },
-            function (err, result) {
-                if (err) {
-                    return res.status(404).send({
-                        success: false,
-                        message: 'User id is not match, Data not udpated',
-                        err: err.toString()
-                    })
-                } else {
-                    return res.status(200).send({
-                        success: true,
-                        data: result
-                    })
-                }
-            });
-    } catch (error) {
-
+    } catch (err) {
+        return res.status(500).send(err.toString());
     }
 }
 
 exports.add = function (req, res) {
     try {
-        let room = new RoomSchema({
-            name: req.body.name,
-            boxId: req.body.boxId,
-            devices: req.body.devices,
-            userId: req.decoded._id,
-            createdAt: new Date()
-        });
-        room.save(function (err, result) {
-            if (err) {
-                return res.status(400).send({
-                    success: false,
-                    message: 'BoxId already exist',
-                    error: err.toString()
-                });
-            } else {
-                return res.status(200).send({
-                    success: true,
-                    data: result
-                });
+        let sql = `call iot.room_createupdate('${req.body.name}', '${req.body.boxId}', '${req.decoded.id}')`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                res.status(400).send(error.message);
             }
+            res.status(200).send({message: 'Room added successfully!'});
         });
-    } catch (error) {
-        return res.status(500).send(error.toString());
+    } catch (err) {
+        return res.status(500).send(err.toString());
     }
 }
-
-
