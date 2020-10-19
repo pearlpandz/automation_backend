@@ -7,9 +7,9 @@ exports.list = function (req, res) {
         let sql = `call iot.rooms_activelist(${req.decoded.id})`;
         connection.query(sql, true, (error, results, fields) => {
             if (error) {
-                res.status(400).send(error.message);
+                return res.status(400).send(error.message);
             }
-            res.status(200).send(results[0]);
+            return res.status(200).send(results[0]);
         });
     } catch (err) {
         return res.status(500).send(err.toString());
@@ -18,12 +18,41 @@ exports.list = function (req, res) {
 
 exports.add = function (req, res) {
     try {
-        let sql = `call iot.room_createupdate('${req.body.name}', '${req.body.boxId}', '${req.decoded.id}')`;
+        let sql = `call iot.room_create('${req.body.name}', '${req.body.boxId}', '${req.decoded.id}')`;
         connection.query(sql, true, (error, results, fields) => {
             if (error) {
-                res.status(400).send(error.message);
+                return res.status(400).send(error.message);
             }
-            res.status(200).send({message: 'Room added successfully!'});
+            return res.status(200).send({message: 'Room added successfully!'});
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.update = function (req, res) {
+    try {
+        let sql = `call iot.room_update('${req.params.id}', '${req.body.name}', '${req.body.boxId}', '${req.decoded.id}')`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return res.status(400).send(error.message);
+            }
+            return res.status(200).send({message: 'Room updated successfully!'});
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+
+exports.delete = function (req, res) {
+    try {
+        let sql = `call iot.room_delete('${req.params.id}', '${req.decoded.id}')`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return res.status(400).send(error.message);
+            }
+            return res.status(200).send({message: 'Room deleted successfully!'});
         });
     } catch (err) {
         return res.status(500).send(err.toString());

@@ -78,3 +78,5 @@ typings/
 # development directories
 uploads/
 reports/
+package-lock.json
+package-lock.json

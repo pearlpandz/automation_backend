@@ -1,15 +1,31 @@
 let mysql = require('mysql');
 const config = require('../config/config');
 let connection = mysql.createConnection(config);
+const moment = require('moment');
+const { now } = require('moment');
 
 exports.list = function (req, res) {
     try {
         let sql = `call iot.room_devices_list(${req.params.id})`;
         connection.query(sql, true, (error, results, fields) => {
             if (error) {
-                res.status(400).send({ message: error.message });
+                return res.status(400).send({ message: error.message });
             }
-            res.status(200).send({ data: results[0] });
+            return res.status(200).send({ data: results[0] });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.basedeviceslist = function (req, res) {
+    try {
+        let sql = `call iot.devices_activelist()`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return res.status(400).send({ message: error.message });
+            }
+            return res.status(200).send({ data: results[0] });
         });
     } catch (err) {
         return res.status(500).send(err.toString());
@@ -18,10 +34,24 @@ exports.list = function (req, res) {
 
 exports.add = function (req, res) {
     try {
+        let sql = `call iot.room_device_create('${req.body.name}', '0', '${req.body.baseDeviceId}', '${req.body.roomId}');`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return res.status(400).send({ message: error.message });
+            }
+            return res.status(200).send({ message: 'Device added successflly!' });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.bulkAdd = function (req, res) {
+    try {
         let arr = req.body;
         let values = '';
         for (let i = 0; i < arr.length; i++) {
-            values += `('0','${arr[i].surname}','${arr[i].speed}','${arr[i].refId}','${arr[i].roomId}','${Date.now()}','1','0')`;
+            values += `('0','${arr[i].surname}','0','${arr[i].refId}','${arr[i].roomId}', '${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}','1','0')`;
             if (i != arr.length - 1) {
                 values += ','
             }
@@ -30,9 +60,9 @@ exports.add = function (req, res) {
         let sql = `insert into iot.rooms_devices values${values}`;
         connection.query(sql, true, (error, results, fields) => {
             if (error) {
-                res.status(400).send(error.message);
+                return res.status(400).send(error.message);
             }
-            res.status(200).send({ message: 'Successfully added' });
+            return res.status(200).send({ message: 'Devices successfully added' });
         });
     } catch (err) {
         return res.status(500).send(err.toString());
@@ -41,12 +71,40 @@ exports.add = function (req, res) {
 
 exports.update = function (req, res) {
     try {
-        let sql = `call iot.room_device_update('${req.body.status}','${req.body.speed}','${req.params.id}')`;
+        let sql = `call iot.room_device_update('${req.params.id}','${req.body.name}','${req.body.baseDeviceId}')`;
         connection.query(sql, true, (error, results, fields) => {
             if (error) {
-                res.status(400).send({ message: error.message });
+                return res.status(400).send({ message: error.message });
             }
-            res.status(200).send({ message: 'Device Information Updated!' });
+            return res.status(200).send({ message: 'Device information updated!' });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.statusUpdate = function (req, res) {
+    try {
+        let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}')`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return res.status(400).send({ message: error.message });
+            }
+            return res.status(200).send({ message: 'Device information updated!' });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.delete = function (req, res) {
+    try {
+        let sql = `call iot.room_device_delete('${req.params.id}')`;
+        connection.query(sql, true, (error, results, fields) => {
+            if (error) {
+                return res.status(400).send({ message: error.message });
+            }
+            return res.status(200).send({ message: 'Device successfully deleted!' });
         });
     } catch (err) {
         return res.status(500).send(err.toString());

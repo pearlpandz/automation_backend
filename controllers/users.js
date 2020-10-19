@@ -47,12 +47,10 @@ exports.signup = function (req, res) {
 
             connection.query(sql, true, (error, results, fields) => {
                 if (error) {
-                    res.status(400).send(error);
+                    return res.status(400).send(error);
                 }
-                res.status(200).send({ message: 'User Successfully Created!' });
+                return res.status(200).send({ message: 'User Successfully Created!' });
             });
-
-            connection.end();
         }
     } catch (err) {
         return res.status(500).send(err.toString());
@@ -75,12 +73,12 @@ exports.login = function (req, res) {
             let sql1 = `call iot.user_single('${req.body.email}', '${req.body.password}')`;
             connection.query(sql1, true, (error1, results1, fields1) => {
                 if (error1) {
-                    res.status(400).send(error1);
+                    return res.status(400).send(error1);
                 } else {
                     if (results1[0].length > 0) {
-                        res.status(200).send({ message: 'User Successfully Login!', data: results1[0][0], token: getToken(results1[0][0].id) });
+                        return res.status(200).send({ message: 'User Successfully Login!', data: results1[0][0], token: getToken(results1[0][0].id) });
                     } else {
-                        res.status(404).send({ message: 'User not found!' });
+                        return res.status(404).send({ message: 'Invalid credentials!' });
                     }
                 }
             })
@@ -93,12 +91,12 @@ exports.login = function (req, res) {
 
 exports.list = (req, res) => {
     try {
-        let sql = `call iot.user_selectall()`;
+        let sql = `call iot.users_activelist()`;
         connection.query(sql, true, (error, results, fields) => {
             if (error) {
-                res.status(400).send(error.message);
+                return res.status(400).send(error.message);
             }
-            res.status(200).send(results[0]);
+            return res.status(200).send(results[0]);
         });
     } catch (err) {
         return res.status(500).send(err.toString());
