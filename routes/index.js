@@ -12,6 +12,7 @@ const Rooms = require('./../controllers/rooms');
 const Devices = require('./../controllers/devices');
 const mqtt = require('./../controllers/mqtt');
 const scheduler = require('./../scheduler/scheduler');
+const schedule = require('./../controllers/scheduler');
 
 // auth
 router.post('/signup', User.signup);
@@ -43,7 +44,10 @@ router.get('/mqtt/switchState', mqtt.switchState);
 router.get('/mqtt/getAllDevices', mqtt.getAllDevices);
 
 // scheduler
-router.get('/scheduler/list', scheduler.list);
+router.post('/scheduler/add', middleware.checkToken, schedule.add);
+router.get('/scheduler/list', middleware.checkToken, schedule.list);
+router.get('/scheduler/:id', middleware.checkToken, schedule.singleGet);
+
 router.get('/scheduler/start', scheduler.start);
 router.get('/scheduler/stop', scheduler.stop);
 

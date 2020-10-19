@@ -1,0 +1,1156 @@
+{
+	"info": {
+		"_postman_id": "a5e9a2d6-4473-4e6a-9a29-3b18afb76382",
+		"name": "IOT Automation",
+		"description": "Real Time IOT base application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "265d2ef5-67de-431a-9cfe-3cc40494d3a5",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableUrlEncoding": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "pearlpandzz@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "pearlpandzz@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "266"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10a-Nc3id4ZdMlM4SEHxfE6V3qgGRq4\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 23 Sep 2020 12:01:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User Successfully Login!\",\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Muthupandi V\",\n        \"role\": \"user\",\n        \"status\": 1,\n        \"isDeleted\": 0\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjAwODYyNDcwLCJleHAiOjMxNjkyOTMyNjQ3MH0.nUwhroFrGWNx-y6H0oHMGiRdORBsqh-B4bHOLLAJlb4\"\n}"
+						}
+					]
+				},
+				{
+					"name": "signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "265d2ef5-67de-431a-9cfe-3cc40494d3a5",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Muthupandi V",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "pearlpandzz@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "mobile",
+									"value": "7502022870",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/signup",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/users/list",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"users",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept": true,
+							"user-agent": true,
+							"host": true,
+							"accept-encoding": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/rooms/list",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"rooms",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true,
+							"host": true,
+							"user-agent": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Kitchen",
+									"type": "text"
+								},
+								{
+									"key": "boxId",
+									"value": "KIT01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/room",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true,
+							"host": true,
+							"user-agent": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Kitchen Dups",
+									"type": "text"
+								},
+								{
+									"key": "boxId",
+									"value": "KIT01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/room/18",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"room",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true,
+							"host": true,
+							"user-agent": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseurl}}/room/18",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"room",
+								"18"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Base Devices",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/basedevices/list",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"basedevices",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Base Devices Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Fluorescent",
+									"type": "text"
+								},
+								{
+									"key": "url",
+									"type": "file",
+									"src": "/C:/Users/muthupandi.v/Downloads/air-conditioner-svg(2).png"
+								},
+								{
+									"key": "type",
+									"value": "light",
+									"type": "text"
+								},
+								{
+									"key": "activeurl",
+									"type": "file",
+									"src": "/C:/Users/muthupandi.v/Downloads/air-conditioner-svg(3).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/device",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"device"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Room Devices",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/devices/list/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"devices",
+								"list",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "hub",
+									"type": "text"
+								},
+								{
+									"key": "baseDeviceId",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "roomId",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/device",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"surname\":\"hub\",\r\n        \"refId\":7,\r\n        \"roomId\":2\r\n    },\r\n    {\r\n        \"surname\":\"tube light\",\r\n        \"refId\":2,\r\n        \"roomId\":2\r\n    }\r\n]"
+						},
+						"url": {
+							"raw": "{{baseurl}}/device/bulk",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"device",
+								"bulk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "My Fan",
+									"type": "text"
+								},
+								{
+									"key": "baseDeviceId",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/device/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"device",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "status",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "speed",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/device/statusUpdate/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"device",
+								"statusUpdate",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseurl}}/device/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"device",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "mqtt",
+			"item": [
+				{
+					"name": "Get single Device Status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "topic",
+									"value": "esp/powermonitoring",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/scheduler/add",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllDevices",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "topic",
+									"value": "esp/switch 1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/mqtt/getAllDevices",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"mqtt",
+								"getAllDevices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "switchState",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "topic",
+									"value": "rasp/sw10",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "Gang_box",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "macadd",
+									"type": "text"
+								},
+								{
+									"key": "value",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/mqtt/switchState",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"mqtt",
+								"switchState"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "scheduler",
+			"item": [
+				{
+					"name": "add schedule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "motta madi",
+									"type": "text"
+								},
+								{
+									"key": "deviceIds",
+									"value": "10,11",
+									"type": "text"
+								},
+								{
+									"key": "starttime",
+									"value": "18:30:00",
+									"type": "text"
+								},
+								{
+									"key": "endtime",
+									"value": "19:45:00",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/scheduler/add",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"add"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "motta madi",
+											"type": "text"
+										},
+										{
+											"key": "deviceIds",
+											"value": "10,11",
+											"type": "text"
+										},
+										{
+											"key": "starttime",
+											"value": "18:30:00",
+											"type": "text"
+										},
+										{
+											"key": "endtime",
+											"value": "19:45:00",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/scheduler/add",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"add"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-+cmV8RzYxtsvB3xD3ngjpcqQwkM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Oct 2020 10:37:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Scheduler added successfully!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "list schedule",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/scheduler/list",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"list"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/scheduler/list",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"list"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "252"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fc-nBn+mE/B8Gm0Y2glKdJVrgyyft0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Oct 2020 10:28:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Work From Home\",\n        \"starttime\": \"10:00:00\",\n        \"endtime\": \"20:00:00\",\n        \"status\": 1\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Bed Room\",\n        \"starttime\": \"22:00:00\",\n        \"endtime\": \"07:00:00\",\n        \"status\": 1\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Kitchen\",\n        \"starttime\": \"10:00:00\",\n        \"endtime\": \"11:30:00\",\n        \"status\": 1\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get single schedule info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/scheduler/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"1"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/scheduler/1",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"1"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "370"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"172-Yb3+aw91KsXH0pDyNfJrEQOrZZU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Oct 2020 10:32:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"schedulerId\": 1,\n        \"schedulerName\": \"Work From Home\",\n        \"starttime\": \"10:00:00\",\n        \"endtime\": \"20:00:00\",\n        \"status\": 1,\n        \"deviceId\": 23,\n        \"deviceName\": \"Charger USB Port\",\n        \"roomId\": 15,\n        \"roomName\": \"Bath Room\"\n    },\n    {\n        \"schedulerId\": 1,\n        \"schedulerName\": \"Work From Home\",\n        \"starttime\": \"10:00:00\",\n        \"endtime\": \"20:00:00\",\n        \"status\": 1,\n        \"deviceId\": 24,\n        \"deviceName\": \"Patti Light\",\n        \"roomId\": 15,\n        \"roomName\": \"Bath Room\"\n    }\n]"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "cron",
+			"item": [],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
