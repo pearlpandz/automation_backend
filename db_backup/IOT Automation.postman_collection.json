@@ -1058,13 +1058,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseurl}}/scheduler/1",
+							"raw": "{{baseurl}}/scheduler/4",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"scheduler",
-								"1"
+								"4"
 							],
 							"query": [
 								{
@@ -1142,13 +1142,175 @@
 							"body": "[\n    {\n        \"schedulerId\": 1,\n        \"schedulerName\": \"Work From Home\",\n        \"starttime\": \"10:00:00\",\n        \"endtime\": \"20:00:00\",\n        \"status\": 1,\n        \"deviceId\": 23,\n        \"deviceName\": \"Charger USB Port\",\n        \"roomId\": 15,\n        \"roomName\": \"Bath Room\"\n    },\n    {\n        \"schedulerId\": 1,\n        \"schedulerName\": \"Work From Home\",\n        \"starttime\": \"10:00:00\",\n        \"endtime\": \"20:00:00\",\n        \"status\": 1,\n        \"deviceId\": 24,\n        \"deviceName\": \"Patti Light\",\n        \"roomId\": 15,\n        \"roomName\": \"Bath Room\"\n    }\n]"
 						}
 					]
+				},
+				{
+					"name": "Devices and Rooms for create scheduler",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/scheduler/devices",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"devices"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/scheduler/devices",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"devices"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2072"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"818-C9T2z/GpSarFQHDAAlmeHtEYalg\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Oct 2020 05:17:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    [\n        {\n            \"deviceId\": 1,\n            \"deviceName\": \"My Fan\",\n            \"roomId\": 1,\n            \"roomName\": \"Bed Room 1\"\n        },\n        {\n            \"deviceId\": 2,\n            \"deviceName\": \"Gundu Bulb\",\n            \"roomId\": 1,\n            \"roomName\": \"Bed Room 1\"\n        },\n        {\n            \"deviceId\": 3,\n            \"deviceName\": \"right side bulb\",\n            \"roomId\": 1,\n            \"roomName\": \"Bed Room 1\"\n        },\n        {\n            \"deviceId\": 4,\n            \"deviceName\": \"usha fan\",\n            \"roomId\": 3,\n            \"roomName\": \"2nd Floor\"\n        },\n        {\n            \"deviceId\": 5,\n            \"deviceName\": \"fan\",\n            \"roomId\": 3,\n            \"roomName\": \"2nd Floor\"\n        },\n        {\n            \"deviceId\": 9,\n            \"deviceName\": \"AC\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 14,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 15,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 16,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 17,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 18,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 19,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 20,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 21,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 22,\n            \"deviceName\": \"Charger\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 23,\n            \"deviceName\": \"Charger USB Port\",\n            \"roomId\": 15,\n            \"roomName\": \"Bath Room\"\n        },\n        {\n            \"deviceId\": 24,\n            \"deviceName\": \"Patti Light\",\n            \"roomId\": 15,\n            \"roomName\": \"Bath Room\"\n        },\n        {\n            \"deviceId\": 25,\n            \"deviceName\": \"2nd AC\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 26,\n            \"deviceName\": \"Optional Fan 1\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 27,\n            \"deviceName\": \"Optional Fan 2\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 28,\n            \"deviceName\": \"Tube Light\",\n            \"roomId\": 14,\n            \"roomName\": \"Kitchen Box\"\n        },\n        {\n            \"deviceId\": 29,\n            \"deviceName\": \"New 40W Bulb\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 30,\n            \"deviceName\": \"AC \",\n            \"roomId\": 17,\n            \"roomName\": \"Bed Room\"\n        },\n        {\n            \"deviceId\": 31,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 32,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 36,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        }\n    ],\n    {\n        \"fieldCount\": 0,\n        \"affectedRows\": 0,\n        \"insertId\": 0,\n        \"serverStatus\": 34,\n        \"warningCount\": 0,\n        \"message\": \"\",\n        \"protocol41\": true,\n        \"changedRows\": 0\n    }\n]"
+						}
+					]
 				}
 			],
 			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "cron",
-			"item": [],
+			"item": [
+				{
+					"name": "Scheduler Start - Cron Job",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/scheduler/start",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"",
+								"scheduler",
+								"start"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scheduler Stop - Cron Job",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/scheduler/stop",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"",
+								"scheduler",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"protocolProfileBehavior": {}
 		}
 	],

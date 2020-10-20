@@ -44,3 +44,17 @@ exports.singleGet = function (req, res) {
         return res.status(500).send(err.toString());
     }
 };
+
+exports.roomsAndDevices = function (req, res) {
+    try {
+        let sql1 = `call iot.scheduler_create_room_devices_list();`;
+        connection.query(sql1, true, (error1, results, fields1) => {
+            if (error1) {
+                return res.status(400).send(error1);
+            }
+            return res.status(200).send(results);
+        })
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+};

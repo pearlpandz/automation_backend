@@ -46,6 +46,7 @@ router.get('/mqtt/getAllDevices', mqtt.getAllDevices);
 // scheduler
 router.post('/scheduler/add', middleware.checkToken, schedule.add);
 router.get('/scheduler/list', middleware.checkToken, schedule.list);
+router.get('/scheduler/devices', middleware.checkToken, schedule.roomsAndDevices);
 router.get('/scheduler/:id', middleware.checkToken, schedule.singleGet);
 
 router.get('/scheduler/start', scheduler.start);

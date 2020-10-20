@@ -127,7 +127,7 @@ CREATE TABLE `scheduler` (
   `createdAt` datetime NOT NULL,
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +136,7 @@ CREATE TABLE `scheduler` (
 
 LOCK TABLES `scheduler` WRITE;
 /*!40000 ALTER TABLE `scheduler` DISABLE KEYS */;
-INSERT INTO `scheduler` VALUES (1,'Work From Home',1,'23,24','10:00:00','20:00:00',1,'2020-09-29 12:34:02',0),(2,'Bed Room',1,'25,26','22:00:00','07:00:00',1,'2020-09-29 12:36:24',0);
+INSERT INTO `scheduler` VALUES (1,'Work From Home',1,'23,24','10:00:00','20:00:00',1,'2020-09-29 12:34:02',0),(2,'Bed Room',1,'25,26','22:00:00','07:00:00',1,'2020-09-29 12:36:24',0),(3,'Kitchen',1,'21','10:00:00','11:30:00',1,'2020-10-19 15:43:38',0),(4,'motta madi',1,'14,15','18:30:00','19:45:00',1,'2020-10-19 16:07:38',0);
 /*!40000 ALTER TABLE `scheduler` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,6 +484,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `scheduler_create_room_devices_list` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `scheduler_create_room_devices_list`()
+BEGIN
+	SELECT rd.id as deviceId, rd.surname as deviceName, r.id as roomId, r.name as roomName
+	FROM iot.rooms_devices as rd,  iot.rooms as r
+	where rd.roomId = r.id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `scheduler_list` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -624,4 +645,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-19 15:30:37
+-- Dump completed on 2020-10-20 10:56:38
