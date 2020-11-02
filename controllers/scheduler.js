@@ -52,8 +52,71 @@ exports.roomsAndDevices = function (req, res) {
             if (error1) {
                 return res.status(400).send(error1);
             }
-            return res.status(200).send(results);
+            return res.status(200).send(results[0]);
         })
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+};
+
+exports.activate = function (req, res) {
+    try {
+        if (!req.body.schedulerId) {
+            return res.status(400).send({
+                success: false,
+                message: "Scheduler Id is required",
+            });
+        } else {
+            let sql1 = `call iot.scheduler_activate(${req.body.schedulerId});`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send({ message: 'Successfully scheduler activated!'});
+            });
+        }
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+};
+
+exports.deactivate = function (req, res) {
+    try {
+        if (!req.body.schedulerId) {
+            return res.status(400).send({
+                success: false,
+                message: "Scheduler Id is required",
+            });
+        } else {
+            let sql1 = `call iot.scheduler_deactivate(${req.body.schedulerId});`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send({ message: 'Successfully scheduler deactivated!'});
+            });
+        }
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+};
+
+exports.delete = function (req, res) {
+    try {
+        if (!req.params.id) {
+            return res.status(400).send({
+                success: false,
+                message: "Scheduler Id is missing in params, which is required!",
+            });
+        } else {
+            let sql1 = `call iot.scheduler_delete(${req.params.id});`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send({ message: 'Successfully scheduler deleted!'});
+            });
+        }
     } catch (err) {
         return res.status(500).send(err.toString());
     }

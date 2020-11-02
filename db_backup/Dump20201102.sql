@@ -41,7 +41,7 @@ CREATE TABLE `devices` (
 
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
-INSERT INTO `devices` VALUES (1,'Air Conditioner','http://192.168.0.103:8000/uploads/devices/air-conditioner.png','http://192.168.0.103:8000/uploads/devices/air-conditioner-active.png','ac','2020-09-17 19:55:29',1,0),(2,'Fluorescent Lamp','http://192.168.0.103:8000/uploads/devices/fluorescent.png','http://192.168.0.103:8000/uploads/devices/fluorescent-active.png','lamp','2020-09-17 19:56:16',1,0),(3,'IR Hub','http://192.168.0.103:8000/uploads/devices/hub.png','http://192.168.0.103:8000/uploads/devices/hub-active.png','hub','2020-09-17 19:56:33',1,0),(4,'Fan','http://192.168.0.103:8000/uploads/devices/fan.png','http://192.168.0.103:8000/uploads/devices/fan-active.png','fan','2020-09-17 19:56:46',1,0),(5,'Light Bulb','http://192.168.0.103:8000/uploads/devices/bulb.png','http://192.168.0.103:8000/uploads/devices/bulb-active.png','bulb','2020-09-17 19:57:08',1,0),(6,'Plug','http://192.168.0.103:8000/uploads/devices/plug.png','http://192.168.0.103:8000/uploads/devices/plug-active.png','plug','2020-09-17 19:57:23',1,0),(7,'USB Cable','http://192.168.0.103:8000/uploads/devices/usb.png','http://192.168.0.103:8000/uploads/devices/usb-active.png','usb','2020-09-17 19:57:43',1,0);
+INSERT INTO `devices` VALUES (1,'Air Conditioner','\'http://192.168.0.102:8000/uploads/devices/air-conditioner.png\'','\'http://192.168.0.102:8000/uploads/devices/air-conditioner-active.png\'','ac','2020-09-17 19:55:29',1,0),(2,'Fluorescent Lamp','http://192.168.0.102:8000/uploads/devices/fluorescent.png','http://192.168.0.102:8000/uploads/devices/fluorescent-active.png','lamp','2020-09-17 19:56:16',1,0),(3,'IR Hub','http://192.168.0.102:8000/uploads/devices/hub.png','http://192.168.0.102:8000/uploads/devices/hub-active.png','hub','2020-09-17 19:56:33',1,0),(4,'Fan','http://192.168.0.102:8000/uploads/devices/fan.png','http://192.168.0.102:8000/uploads/devices/fan-active.png','fan','2020-09-17 19:56:46',1,0),(5,'Light Bulb','http://192.168.0.102:8000/uploads/devices/bulb.png','http://192.168.0.102:8000/uploads/devices/bulb-active.png','bulb','2020-09-17 19:57:08',1,0),(6,'Plug','http://192.168.0.102:8000/uploads/devices/plug.png','http://192.168.0.102:8000/uploads/devices/plug-active.png','plug','2020-09-17 19:57:23',1,0),(7,'USB Cable','http://192.168.0.102:8000/uploads/devices/usb.png','http://192.168.0.102:8000/uploads/devices/usb-active.png','usb','2020-09-17 19:57:43',1,0);
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `scheduler` (
   `createdAt` datetime NOT NULL,
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +136,7 @@ CREATE TABLE `scheduler` (
 
 LOCK TABLES `scheduler` WRITE;
 /*!40000 ALTER TABLE `scheduler` DISABLE KEYS */;
-INSERT INTO `scheduler` VALUES (1,'Work From Home',1,'23,24','10:00:00','20:00:00',1,'2020-09-29 12:34:02',0),(2,'Bed Room',1,'25,26','22:00:00','07:00:00',1,'2020-09-29 12:36:24',0),(3,'Kitchen',1,'21','10:00:00','11:30:00',1,'2020-10-19 15:43:38',0),(4,'motta madi',1,'14,15','18:30:00','19:45:00',1,'2020-10-19 16:07:38',0);
+INSERT INTO `scheduler` VALUES (1,'Work From Home',1,'23,24','10:00:00','20:00:00',0,'2020-09-29 12:34:02',1),(2,'Bed Room',1,'25,26','22:00:00','07:00:00',1,'2020-09-29 12:36:24',0),(3,'Kitchen',1,'21','10:00:00','11:30:00',1,'2020-10-19 15:43:38',0);
 /*!40000 ALTER TABLE `scheduler` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -459,6 +459,25 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `scheduler_activate` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `scheduler_activate`(SId int)
+BEGIN
+	update iot.scheduler set status=1 where id = SId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `scheduler_create` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -499,6 +518,44 @@ BEGIN
 	SELECT rd.id as deviceId, rd.surname as deviceName, r.id as roomId, r.name as roomName
 	FROM iot.rooms_devices as rd,  iot.rooms as r
 	where rd.roomId = r.id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `scheduler_deactivate` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `scheduler_deactivate`(SId int)
+BEGIN
+	update iot.scheduler set status=0 where id = SId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `scheduler_delete` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `scheduler_delete`(SId int)
+BEGIN
+	update iot.scheduler set status=0, isDeleted=1 where id = SId;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -645,4 +702,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-20 10:56:38
+-- Dump completed on 2020-11-02 12:19:15

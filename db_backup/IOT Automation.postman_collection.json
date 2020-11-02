@@ -1239,6 +1239,339 @@
 							"body": "[\n    [\n        {\n            \"deviceId\": 1,\n            \"deviceName\": \"My Fan\",\n            \"roomId\": 1,\n            \"roomName\": \"Bed Room 1\"\n        },\n        {\n            \"deviceId\": 2,\n            \"deviceName\": \"Gundu Bulb\",\n            \"roomId\": 1,\n            \"roomName\": \"Bed Room 1\"\n        },\n        {\n            \"deviceId\": 3,\n            \"deviceName\": \"right side bulb\",\n            \"roomId\": 1,\n            \"roomName\": \"Bed Room 1\"\n        },\n        {\n            \"deviceId\": 4,\n            \"deviceName\": \"usha fan\",\n            \"roomId\": 3,\n            \"roomName\": \"2nd Floor\"\n        },\n        {\n            \"deviceId\": 5,\n            \"deviceName\": \"fan\",\n            \"roomId\": 3,\n            \"roomName\": \"2nd Floor\"\n        },\n        {\n            \"deviceId\": 9,\n            \"deviceName\": \"AC\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 14,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 15,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 16,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 17,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 18,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 19,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 20,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 21,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 22,\n            \"deviceName\": \"Charger\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 23,\n            \"deviceName\": \"Charger USB Port\",\n            \"roomId\": 15,\n            \"roomName\": \"Bath Room\"\n        },\n        {\n            \"deviceId\": 24,\n            \"deviceName\": \"Patti Light\",\n            \"roomId\": 15,\n            \"roomName\": \"Bath Room\"\n        },\n        {\n            \"deviceId\": 25,\n            \"deviceName\": \"2nd AC\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 26,\n            \"deviceName\": \"Optional Fan 1\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 27,\n            \"deviceName\": \"Optional Fan 2\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 28,\n            \"deviceName\": \"Tube Light\",\n            \"roomId\": 14,\n            \"roomName\": \"Kitchen Box\"\n        },\n        {\n            \"deviceId\": 29,\n            \"deviceName\": \"New 40W Bulb\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 30,\n            \"deviceName\": \"AC \",\n            \"roomId\": 17,\n            \"roomName\": \"Bed Room\"\n        },\n        {\n            \"deviceId\": 31,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 32,\n            \"deviceName\": \"tube light\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        },\n        {\n            \"deviceId\": 36,\n            \"deviceName\": \"hub\",\n            \"roomId\": 2,\n            \"roomName\": \"Bed Room 2\"\n        }\n    ],\n    {\n        \"fieldCount\": 0,\n        \"affectedRows\": 0,\n        \"insertId\": 0,\n        \"serverStatus\": 34,\n        \"warningCount\": 0,\n        \"message\": \"\",\n        \"protocol41\": true,\n        \"changedRows\": 0\n    }\n]"
 						}
 					]
+				},
+				{
+					"name": "Activate scheduler",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "schedulerId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/scheduler/activate",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "schedulerId",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/scheduler/activate",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"activate"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "47"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2f-uki0XJmv5kxn3iCMnQfjSCkrdHc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Nov 2020 06:38:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Successfully scheduler activated!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deactivate scheduler",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "schedulerId",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/scheduler/deactivate",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"deactivate"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "schedulerId",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseurl}}/scheduler/deactivate",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"deactivate"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "49"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"31-7qpaI/e/SyC6bTOIvej4/NE2iWQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Nov 2020 06:39:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Successfully scheduler deactivated!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete scheduler",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/scheduler/delete/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"scheduler",
+								"delete",
+								"1"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer {{token}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/scheduler/delete/1",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"scheduler",
+										"delete",
+										"1"
+									],
+									"query": [
+										{
+											"key": "Authorization",
+											"value": "Bearer {{token}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d-//KBCdaRRkc5jDBa4PiO1PHALoM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 02 Nov 2020 06:45:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Successfully scheduler deleted!\"\n}"
+						}
+					]
 				}
 			],
 			"protocolProfileBehavior": {}

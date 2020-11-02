@@ -42,12 +42,15 @@ router.delete('/device/:id', middleware.checkToken, Devices.delete);
 router.get('/mqtt/getDeviceStatus', mqtt.getDeviceStatus);
 router.get('/mqtt/switchState', mqtt.switchState);
 router.get('/mqtt/getAllDevices', mqtt.getAllDevices);
-
+    
 // scheduler
 router.post('/scheduler/add', middleware.checkToken, schedule.add);
 router.get('/scheduler/list', middleware.checkToken, schedule.list);
 router.get('/scheduler/devices', middleware.checkToken, schedule.roomsAndDevices);
 router.get('/scheduler/:id', middleware.checkToken, schedule.singleGet);
+router.patch('/scheduler/activate', middleware.checkToken, schedule.activate);
+router.patch('/scheduler/deactivate', middleware.checkToken, schedule.deactivate);
+router.delete('/scheduler/delete/:id', middleware.checkToken, schedule.delete);
 
 router.get('/scheduler/start', scheduler.start);
 router.get('/scheduler/stop', scheduler.stop);
