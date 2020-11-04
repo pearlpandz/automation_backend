@@ -1,4 +1,5 @@
 const config = {
+    connectionLimit : 10,
     host: "localhost", // "iot.c3yfy0oqxffp.ap-south-1.rds.amazonaws.com", 
     port: 3306, 
     user: 'root', // "admin", 

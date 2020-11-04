@@ -12,7 +12,8 @@ function getToken(userid) {
     });
 }
 
-let connection = mysql.createConnection(config);
+// let connection = mysql.createConnection(config);
+let pool = mysql.createPool(config);
 
 
 exports.signup = function (req, res) {
@@ -70,19 +71,23 @@ exports.login = function (req, res) {
                 message: "Password is required",
             });
         } else {
-            let sql1 = `call iot.user_single('${req.body.email}', '${req.body.password}')`;
-            connection.query(sql1, true, (error1, results1, fields1) => {
-                if (error1) {
-                    return res.status(400).send(error1);
-                } else {
-                    if (results1[0].length > 0) {
-                        return res.status(200).send({ message: 'User Successfully Login!', data: results1[0][0], token: getToken(results1[0][0].id) });
-                    } else {
-                        return res.status(404).send({ message: 'Invalid credentials!' });
-                    }
-                }
-            })
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(400).send(err); // not connected!
 
+                // Use the connection
+                let sql1 = `call iot.user_single('${req.body.email}', '${req.body.password}')`;
+                connection.query(sql1, true, (error1, results1, fields1) => {
+                    if (error1) {
+                        return res.status(400).send(error1);
+                    } else {
+                        if (results1[0].length > 0) {
+                            return res.status(200).send({ message: 'User Successfully Login!', data: results1[0][0], token: getToken(results1[0][0].id) });
+                        } else {
+                            return res.status(404).send({ message: 'Invalid credentials!' });
+                        }
+                    }
+                })
+            })
         }
     } catch (err) {
         return res.status(500).send(err.toString());
