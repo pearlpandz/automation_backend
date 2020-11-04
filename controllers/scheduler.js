@@ -1,17 +1,23 @@
 let mysql = require('mysql');
 const config = require('../config/config');
-let connection = mysql.createConnection(config);
 
+// let connection = mysql.createConnection(config);
+let pool = mysql.createPool(config);
 
 exports.add = function (req, res) {
     try {
-        let sql1 = `call iot.scheduler_create('${req.body.name}', '${req.decoded.id}', '${req.body.deviceIds}', '${req.body.starttime}', '${req.body.endtime}');`;
-        connection.query(sql1, true, (error1, results, fields1) => {
-            if (error1) {
-                return res.status(400).send(error1);
-            }
-            return res.status(200).send({ message: 'Scheduler added successfully!' });
-        })
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            // Use the connection
+            let sql1 = `call iot.scheduler_create('${req.body.name}', '${req.decoded.id}', '${req.body.deviceIds}', '${req.body.starttime}', '${req.body.endtime}');`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send({ message: 'Scheduler added successfully!' });
+            });
+        });
     } catch (err) {
         return res.status(500).send(err.toString());
     }
@@ -19,13 +25,18 @@ exports.add = function (req, res) {
 
 exports.list = function (req, res) {
     try {
-        let sql1 = `call iot.scheduler_list('${req.decoded.id}');`;
-        connection.query(sql1, true, (error1, results, fields1) => {
-            if (error1) {
-                return res.status(400).send(error1);
-            }
-            return res.status(200).send(results[0]);
-        })
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            // Use the connection
+            let sql1 = `call iot.scheduler_list('${req.decoded.id}');`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send(results[0]);
+            });
+        });
     } catch (err) {
         return res.status(500).send(err.toString());
     }
@@ -33,13 +44,18 @@ exports.list = function (req, res) {
 
 exports.singleGet = function (req, res) {
     try {
-        let sql1 = `call iot.scheduler_single_info('${req.decoded.id}', '${req.params.id}');`;
-        connection.query(sql1, true, (error1, results, fields1) => {
-            if (error1) {
-                return res.status(400).send(error1);
-            }
-            return res.status(200).send(results[0]);
-        })
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            // Use the connection
+            let sql1 = `call iot.scheduler_single_info('${req.decoded.id}', '${req.params.id}');`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send(results[0]);
+            });
+        });
     } catch (err) {
         return res.status(500).send(err.toString());
     }
@@ -47,13 +63,18 @@ exports.singleGet = function (req, res) {
 
 exports.roomsAndDevices = function (req, res) {
     try {
-        let sql1 = `call iot.scheduler_create_room_devices_list();`;
-        connection.query(sql1, true, (error1, results, fields1) => {
-            if (error1) {
-                return res.status(400).send(error1);
-            }
-            return res.status(200).send(results[0]);
-        })
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            // Use the connection
+            let sql1 = `call iot.scheduler_create_room_devices_list();`;
+            connection.query(sql1, true, (error1, results, fields1) => {
+                if (error1) {
+                    return res.status(400).send(error1);
+                }
+                return res.status(200).send(results[0]);
+            });
+        });
     } catch (err) {
         return res.status(500).send(err.toString());
     }
@@ -67,12 +88,17 @@ exports.activate = function (req, res) {
                 message: "Scheduler Id is required",
             });
         } else {
-            let sql1 = `call iot.scheduler_activate(${req.body.schedulerId});`;
-            connection.query(sql1, true, (error1, results, fields1) => {
-                if (error1) {
-                    return res.status(400).send(error1);
-                }
-                return res.status(200).send({ message: 'Successfully scheduler activated!'});
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql1 = `call iot.scheduler_activate(${req.body.schedulerId});`;
+                connection.query(sql1, true, (error1, results, fields1) => {
+                    if (error1) {
+                        return res.status(400).send(error1);
+                    }
+                    return res.status(200).send({ message: 'Successfully scheduler activated!' });
+                });
             });
         }
     } catch (err) {
@@ -88,12 +114,17 @@ exports.deactivate = function (req, res) {
                 message: "Scheduler Id is required",
             });
         } else {
-            let sql1 = `call iot.scheduler_deactivate(${req.body.schedulerId});`;
-            connection.query(sql1, true, (error1, results, fields1) => {
-                if (error1) {
-                    return res.status(400).send(error1);
-                }
-                return res.status(200).send({ message: 'Successfully scheduler deactivated!'});
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql1 = `call iot.scheduler_deactivate(${req.body.schedulerId});`;
+                connection.query(sql1, true, (error1, results, fields1) => {
+                    if (error1) {
+                        return res.status(400).send(error1);
+                    }
+                    return res.status(200).send({ message: 'Successfully scheduler deactivated!' });
+                });
             });
         }
     } catch (err) {
@@ -109,12 +140,17 @@ exports.delete = function (req, res) {
                 message: "Scheduler Id is missing in params, which is required!",
             });
         } else {
-            let sql1 = `call iot.scheduler_delete(${req.params.id});`;
-            connection.query(sql1, true, (error1, results, fields1) => {
-                if (error1) {
-                    return res.status(400).send(error1);
-                }
-                return res.status(200).send({ message: 'Successfully scheduler deleted!'});
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql1 = `call iot.scheduler_delete(${req.params.id});`;
+                connection.query(sql1, true, (error1, results, fields1) => {
+                    if (error1) {
+                        return res.status(400).send(error1);
+                    }
+                    return res.status(200).send({ message: 'Successfully scheduler deleted!' });
+                });
             });
         }
     } catch (err) {

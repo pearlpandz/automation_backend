@@ -1,9 +1,6 @@
 // Modals
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
-const moment = require('moment');
-const http = require('http');
-const urlencode = require('urlencode');
 let mysql = require('mysql');
 
 function getToken(userid) {
@@ -44,13 +41,18 @@ exports.signup = function (req, res) {
                 message: 'Role is required',
             });
         } else {
-            let sql = `call iot.user_createupdate(0,'${req.body.name}', ${req.body.mobile}, '${req.body.password}', '${req.body.email}', '${req.body.role}')`;
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
 
-            connection.query(sql, true, (error, results, fields) => {
-                if (error) {
-                    return res.status(400).send(error);
-                }
-                return res.status(200).send({ message: 'User Successfully Created!' });
+                // Use the connection
+                let sql = `call iot.user_createupdate(0,'${req.body.name}', ${req.body.mobile}, '${req.body.password}', '${req.body.email}', '${req.body.role}')`;
+
+                connection.query(sql, true, (error) => {
+                    if (error) {
+                        return res.status(400).send(error);
+                    }
+                    return res.status(200).send({ message: 'User Successfully Created!' });
+                });
             });
         }
     } catch (err) {
@@ -72,11 +74,11 @@ exports.login = function (req, res) {
             });
         } else {
             pool.getConnection(function (err, connection) {
-                if (err) return res.status(400).send(err); // not connected!
+                if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
                 let sql1 = `call iot.user_single('${req.body.email}', '${req.body.password}')`;
-                connection.query(sql1, true, (error1, results1, fields1) => {
+                connection.query(sql1, true, (error1, results1) => {
                     if (error1) {
                         return res.status(400).send(error1);
                     } else {
@@ -96,12 +98,17 @@ exports.login = function (req, res) {
 
 exports.list = (req, res) => {
     try {
-        let sql = `call iot.users_activelist()`;
-        connection.query(sql, true, (error, results, fields) => {
-            if (error) {
-                return res.status(400).send(error.message);
-            }
-            return res.status(200).send(results[0]);
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            // Use the connection
+            let sql = `call iot.users_activelist()`;
+            connection.query(sql, true, (error, results) => {
+                if (error) {
+                    return res.status(400).send(error.message);
+                }
+                return res.status(200).send(results[0]);
+            });
         });
     } catch (err) {
         return res.status(500).send(err.toString());
