@@ -12,6 +12,7 @@ exports.list = function (req, res) {
             // Use the connection
             let sql = `call iot.rooms_activelist(${req.decoded.id})`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send(error.message);
                 }
@@ -31,6 +32,7 @@ exports.add = function (req, res) {
             // Use the connection
             let sql = `call iot.room_create('${req.body.name}', '${req.body.boxId}', '${req.decoded.id}')`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send(error.message);
                 }
@@ -50,6 +52,7 @@ exports.update = function (req, res) {
             // Use the connection
             let sql = `call iot.room_update('${req.params.id}', '${req.body.name}', '${req.body.boxId}', '${req.decoded.id}')`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send(error.message);
                 }
@@ -70,6 +73,7 @@ exports.delete = function (req, res) {
             // Use the connection
             let sql = `call iot.room_delete('${req.params.id}', '${req.decoded.id}')`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send(error.message);
                 }

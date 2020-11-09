@@ -48,6 +48,7 @@ exports.signup = function (req, res) {
                 let sql = `call iot.user_createupdate(0,'${req.body.name}', ${req.body.mobile}, '${req.body.password}', '${req.body.email}', '${req.body.role}')`;
 
                 connection.query(sql, true, (error) => {
+                    connection.release();
                     if (error) {
                         return res.status(400).send(error);
                     }
@@ -79,6 +80,7 @@ exports.login = function (req, res) {
                 // Use the connection
                 let sql1 = `call iot.user_single('${req.body.email}', '${req.body.password}')`;
                 connection.query(sql1, true, (error1, results1) => {
+                    connection.release();
                     if (error1) {
                         return res.status(400).send(error1);
                     } else {
@@ -104,6 +106,7 @@ exports.list = (req, res) => {
             // Use the connection
             let sql = `call iot.users_activelist()`;
             connection.query(sql, true, (error, results) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send(error.message);
                 }

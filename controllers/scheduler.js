@@ -12,6 +12,7 @@ exports.add = function (req, res) {
             // Use the connection
             let sql1 = `call iot.scheduler_create('${req.body.name}', '${req.decoded.id}', '${req.body.deviceIds}', '${req.body.starttime}', '${req.body.endtime}');`;
             connection.query(sql1, true, (error1, results, fields1) => {
+                connection.release();
                 if (error1) {
                     return res.status(400).send(error1);
                 }
@@ -31,6 +32,7 @@ exports.list = function (req, res) {
             // Use the connection
             let sql1 = `call iot.scheduler_list('${req.decoded.id}');`;
             connection.query(sql1, true, (error1, results, fields1) => {
+                connection.release();
                 if (error1) {
                     return res.status(400).send(error1);
                 }
@@ -50,6 +52,7 @@ exports.singleGet = function (req, res) {
             // Use the connection
             let sql1 = `call iot.scheduler_single_info('${req.decoded.id}', '${req.params.id}');`;
             connection.query(sql1, true, (error1, results, fields1) => {
+                connection.release();
                 if (error1) {
                     return res.status(400).send(error1);
                 }
@@ -69,6 +72,7 @@ exports.roomsAndDevices = function (req, res) {
             // Use the connection
             let sql1 = `call iot.scheduler_create_room_devices_list();`;
             connection.query(sql1, true, (error1, results, fields1) => {
+                connection.release();
                 if (error1) {
                     return res.status(400).send(error1);
                 }
@@ -94,6 +98,7 @@ exports.activate = function (req, res) {
                 // Use the connection
                 let sql1 = `call iot.scheduler_activate(${req.body.schedulerId});`;
                 connection.query(sql1, true, (error1, results, fields1) => {
+                    connection.release();
                     if (error1) {
                         return res.status(400).send(error1);
                     }
@@ -120,6 +125,7 @@ exports.deactivate = function (req, res) {
                 // Use the connection
                 let sql1 = `call iot.scheduler_deactivate(${req.body.schedulerId});`;
                 connection.query(sql1, true, (error1, results, fields1) => {
+                    connection.release();
                     if (error1) {
                         return res.status(400).send(error1);
                     }
@@ -146,6 +152,7 @@ exports.delete = function (req, res) {
                 // Use the connection
                 let sql1 = `call iot.scheduler_delete(${req.params.id});`;
                 connection.query(sql1, true, (error1, results, fields1) => {
+                    connection.release();
                     if (error1) {
                         return res.status(400).send(error1);
                     }

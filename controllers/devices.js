@@ -1,7 +1,6 @@
 let mysql = require('mysql');
 const config = require('../config/config');
 const moment = require('moment');
-const { now } = require('moment');
 
 // let connection = mysql.createConnection(config);
 let pool = mysql.createPool(config);
@@ -14,6 +13,7 @@ exports.list = function (req, res) {
             // Use the connection
             let sql = `call iot.room_devices_list(${req.params.id})`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send({ message: error.message });
                 }
@@ -33,6 +33,7 @@ exports.basedeviceslist = function (req, res) {
             // Use the connection
             let sql = `call iot.devices_activelist()`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send({ message: error.message });
                 }
@@ -52,6 +53,7 @@ exports.add = function (req, res) {
             // Use the connection
             let sql = `call iot.room_device_create('${req.body.name}', '0', '${req.body.baseDeviceId}', '${req.body.roomId}');`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send({ message: error.message });
                 }
@@ -79,6 +81,7 @@ exports.bulkAdd = function (req, res) {
             // Use the connection
             let sql = `insert into iot.rooms_devices values${values}`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send(error.message);
                 }
@@ -98,6 +101,7 @@ exports.update = function (req, res) {
             // Use the connection
             let sql = `call iot.room_device_update('${req.params.id}','${req.body.name}','${req.body.baseDeviceId}')`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send({ message: error.message });
                 }
@@ -117,6 +121,7 @@ exports.statusUpdate = function (req, res) {
             // Use the connection
             let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}')`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send({ message: error.message });
                 }
@@ -136,6 +141,7 @@ exports.delete = function (req, res) {
             // Use the connection
             let sql = `call iot.room_device_delete('${req.params.id}')`;
             connection.query(sql, true, (error, results, fields) => {
+                connection.release();
                 if (error) {
                     return res.status(400).send({ message: error.message });
                 }
