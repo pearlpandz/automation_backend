@@ -9,7 +9,7 @@ const express = require('express'),
     routes = require('./routes/index');
 
 // NPM Packages use configuration
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 app.use(bodyParser.json());
 
