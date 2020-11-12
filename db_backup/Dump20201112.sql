@@ -41,7 +41,7 @@ CREATE TABLE `devices` (
 
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
-INSERT INTO `devices` VALUES (1,'Air Conditioner','\'http://192.168.0.102:8000/uploads/devices/air-conditioner.png\'','\'http://192.168.0.102:8000/uploads/devices/air-conditioner-active.png\'','ac','2020-09-17 19:55:29',1,0),(2,'Fluorescent Lamp','http://192.168.0.102:8000/uploads/devices/fluorescent.png','http://192.168.0.102:8000/uploads/devices/fluorescent-active.png','lamp','2020-09-17 19:56:16',1,0),(3,'IR Hub','http://192.168.0.102:8000/uploads/devices/hub.png','http://192.168.0.102:8000/uploads/devices/hub-active.png','hub','2020-09-17 19:56:33',1,0),(4,'Fan','http://192.168.0.102:8000/uploads/devices/fan.png','http://192.168.0.102:8000/uploads/devices/fan-active.png','fan','2020-09-17 19:56:46',1,0),(5,'Light Bulb','http://192.168.0.102:8000/uploads/devices/bulb.png','http://192.168.0.102:8000/uploads/devices/bulb-active.png','bulb','2020-09-17 19:57:08',1,0),(6,'Plug','http://192.168.0.102:8000/uploads/devices/plug.png','http://192.168.0.102:8000/uploads/devices/plug-active.png','plug','2020-09-17 19:57:23',1,0),(7,'USB Cable','http://192.168.0.102:8000/uploads/devices/usb.png','http://192.168.0.102:8000/uploads/devices/usb-active.png','usb','2020-09-17 19:57:43',1,0);
+INSERT INTO `devices` VALUES (1,'Air Conditioner','/uploads/devices/air-conditioner.png','/uploads/devices/air-conditioner-active.png','ac','2020-09-17 19:55:29',1,0),(2,'Fluorescent Lamp','/uploads/devices/fluorescent.png','/uploads/devices/fluorescent-active.png','lamp','2020-09-17 19:56:16',1,0),(3,'IR Hub','/uploads/devices/hub.png','/uploads/devices/hub-active.png','hub','2020-09-17 19:56:33',1,0),(4,'Fan','/uploads/devices/fan.png','/uploads/devices/fan-active.png','fan','2020-09-17 19:56:46',1,0),(5,'Light Bulb','/uploads/devices/bulb.png','/uploads/devices/bulb-active.png','bulb','2020-09-17 19:57:08',1,0),(6,'Plug','/uploads/devices/plug.png','/uploads/devices/plug-active.png','plug','2020-09-17 19:57:23',1,0),(7,'USB Cable','/uploads/devices/usb.png','/uploads/devices/usb-active.png','usb','2020-09-17 19:57:43',1,0);
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `rooms` (
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `rooms` (
 
 LOCK TABLES `rooms` WRITE;
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
-INSERT INTO `rooms` VALUES (1,'Bed Room 1','BED01',1,'2020-09-18 08:21:54',1,0),(2,'Bed Room 2','BED02',1,'2020-09-18 08:22:08',1,0),(3,'2nd Floor','floor02',5,'2020-09-18 10:02:32',1,0),(4,'2nd Floor','floor02',1,'2020-09-18 13:50:23',0,1),(5,'2nd Floor','floor02',1,'2020-09-18 13:52:45',0,1),(6,'2nd Floor','floor02',1,'2020-09-18 13:54:12',0,1),(7,'2nd Floor','floor02',1,'2020-09-21 14:19:46',0,1),(8,'2nd Floor','floor02',1,'2020-09-21 14:21:38',0,1),(9,'2nd Floor','floor02',1,'2020-09-21 14:23:20',0,1),(10,'2nd Floor','floor02',1,'2020-09-21 14:25:04',0,1),(11,'2nd Floor','floor02',1,'2020-09-21 14:28:15',0,1),(12,'2nd Floor','floor02',1,'2020-09-21 14:29:30',0,1),(13,'Last Floor','LaFl001',1,'2020-09-21 14:30:39',0,1),(14,'Kitchen Box','KIT01',1,'2020-09-21 16:35:02',1,0),(15,'Bath Room','BATH01',1,'2020-09-22 09:38:29',1,0),(16,'Kitchen Room','TEST001',1,'2020-09-23 14:39:51',0,1),(17,'Bed Room','BED01',8,'2020-09-23 14:49:55',1,0),(18,'Kitchen Dups','KIT01',1,'2020-09-23 16:38:37',0,1);
+INSERT INTO `rooms` VALUES (1,'Main Hall','HALL_01',1,'2020-11-12 09:36:51',1,0);
 /*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,13 +90,10 @@ CREATE TABLE `rooms_devices` (
   `createdAt` datetime DEFAULT NULL,
   `status` tinyint(1) DEFAULT 1,
   `isDeleted` tinyint(1) DEFAULT 0,
+  `switchNo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `baseDeviceId` (`baseDeviceId`),
-  KEY `roomId` (`roomId`),
-  CONSTRAINT `rooms_devices_ibfk_1` FOREIGN KEY (`baseDeviceId`) REFERENCES `devices` (`id`),
-  CONSTRAINT `rooms_devices_ibfk_2` FOREIGN KEY (`roomId`) REFERENCES `rooms` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +102,7 @@ CREATE TABLE `rooms_devices` (
 
 LOCK TABLES `rooms_devices` WRITE;
 /*!40000 ALTER TABLE `rooms_devices` DISABLE KEYS */;
-INSERT INTO `rooms_devices` VALUES (1,'My Fan',3,4,1,'2020-09-18 09:23:56',1,1),(2,'Gundu Bulb',0,5,1,'2020-09-18 09:23:56',1,1),(3,'right side bulb',0,5,1,'2020-09-18 09:34:11',0,0),(4,'usha fan',5,4,3,'2020-09-18 10:07:32',1,0),(5,'fan',0,4,3,'2020-09-18 14:18:57',0,0),(9,'AC',0,1,2,'2020-09-18 14:29:43',0,0),(14,'hub',1,7,2,'0000-00-00 00:00:00',1,1),(15,'tube light',1,2,2,'0000-00-00 00:00:00',1,1),(16,'hub',1,7,2,'0000-00-00 00:00:00',1,1),(17,'tube light',0,2,2,'0000-00-00 00:00:00',0,1),(18,'hub',1,7,2,'0000-00-00 00:00:00',1,1),(19,'tube light',1,2,2,'0000-00-00 00:00:00',0,0),(20,'hub',1,7,2,'0000-00-00 00:00:00',1,1),(21,'tube light',1,2,2,'0000-00-00 00:00:00',1,1),(22,'Charger',0,7,2,'2020-09-22 12:25:36',0,0),(23,'Charger USB Port',0,7,15,'2020-09-22 14:48:24',0,0),(24,'Patti Light',0,2,15,'2020-09-22 14:50:54',0,0),(25,'2nd AC',0,1,2,'2020-09-22 14:51:33',1,1),(26,'Optional Fan 1',2,4,2,'2020-09-22 14:51:49',0,0),(27,'Optional Fan 2',0,4,2,'2020-09-22 14:52:12',1,1),(28,'Tube Light',0,2,14,'2020-09-22 15:00:21',0,0),(29,'New 40W Bulb',0,5,2,'2020-09-23 14:40:33',1,0),(30,'AC ',0,1,17,'2020-09-23 14:52:07',1,0),(31,'hub',0,7,2,'2020-09-23 16:54:08',1,0),(32,'tube light',0,2,2,'2020-09-23 16:54:08',1,0),(36,'hub',0,7,2,'2020-09-23 16:57:18',1,0);
+INSERT INTO `rooms_devices` VALUES (1,'Tube Light',0,2,1,'2020-11-12 09:41:52',0,0,'1');
 /*!40000 ALTER TABLE `rooms_devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +124,7 @@ CREATE TABLE `scheduler` (
   `createdAt` datetime NOT NULL,
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +133,6 @@ CREATE TABLE `scheduler` (
 
 LOCK TABLES `scheduler` WRITE;
 /*!40000 ALTER TABLE `scheduler` DISABLE KEYS */;
-INSERT INTO `scheduler` VALUES (1,'Work From Home',1,'23,24','10:00:00','20:00:00',0,'2020-09-29 12:34:02',1),(2,'Bed Room',1,'25,26','22:00:00','07:00:00',1,'2020-09-29 12:36:24',0),(3,'Kitchen',1,'21','10:00:00','11:30:00',1,'2020-10-19 15:43:38',0);
 /*!40000 ALTER TABLE `scheduler` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +157,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mobile` (`mobile`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +166,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Muthupandi V','7502022870','12345678','pearlpandzz@gmail.com','user','2020-09-17 19:53:32','2020-09-18 13:00:45',1,0),(4,'Muthupandi V','7502022871','12345678','pearlpandz@gmail.com','user','2020-09-17 19:53:57','2020-09-17 19:53:57',0,1),(5,'guna','8220176290','12345678','gunabharathi9782@gmail.com','user','2020-09-18 08:34:09','2020-09-18 08:34:09',1,0),(6,'Viji','9876543210','12345678','vijima@gmail.com','superadmin','2020-09-18 08:57:04','2020-09-18 08:57:04',0,1),(7,'Lemurian','9514786320','12345678','lemurian@gmail.com','user','2020-09-18 13:34:06','2020-09-18 13:34:06',1,0),(8,'Guna Bharathi','96325874100','12345678','guna@gmail.com','user','2020-09-23 14:48:26','2020-09-23 14:48:26',1,0);
+INSERT INTO `users` VALUES (1,'Muthupandi V','8610100498','12345678','pearlpandzz@gmail.com','user','2020-11-12 09:36:09','2020-11-12 09:36:09',1,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,7 +311,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `room_devices_list`(dRoomId int)
 BEGIN
-    SELECT d.id, d.surname, d.speed,d.status, bd.name, bd.url, bd.activeurl, bd.type, bd.id as refId
+    SELECT d.id, d.surname, d.switchNo, d.speed,d.status, bd.name, bd.url, bd.activeurl, bd.type, bd.id as refId
 	FROM iot.rooms_devices AS d, iot.devices AS bd
 	WHERE d.roomId = dRoomId and d.baseDeviceId=bd.id and d.isDeleted = false
 	order by d.surname ASC;
@@ -337,7 +333,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `room_devices_list_by_userId`(duserId int)
 BEGIN
-    select r.name, d.surname, d.id as deviceId, d.roomId as dRoomId, r.id as RoomId 
+    select r.name, d.surname, d.id as deviceId, d.roomId as dRoomId, d.switchNo, r.id as RoomId 
 	from iot.rooms as r, iot.rooms_devices as d
 	where r.userId = duserId and d.roomId = r.id and d.isDeleted = 0 and r.isDeleted = 0
 	order by name asc; 
@@ -361,10 +357,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `room_device_create`(
 	dSurname VARCHAR(45), 
     dSpeed double, 
 	dBaseDeviceId int,
-    dRoomId int
+    dRoomId int,
+    dSwitchNo varchar(45)
 )
 BEGIN
-    insert into iot.rooms_devices values(0, dSurname, dSpeed, dBaseDeviceId, dRoomId, (select now()), 1, 0);
+    insert into iot.rooms_devices values(0, dSurname, dSpeed, dBaseDeviceId, dRoomId, (select now()), 1, 0, dSwitchNo);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -400,9 +397,9 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `room_device_statusUpdate`(dstatus boolean, dspeed int, did int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `room_device_statusUpdate`(dstatus boolean, dspeed int, did int, dswitchNo varchar(45))
 BEGIN
-	update iot.rooms_devices set status = dstatus, speed = dspeed where id=did;
+	update iot.rooms_devices set status = dstatus, speed = dspeed where id=did and switchNo=dswitchNo;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -702,4 +699,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-02 12:19:15
+-- Dump completed on 2020-11-12  9:49:17

@@ -42,7 +42,10 @@
 									"value": "12345678",
 									"type": "text"
 								}
-							]
+							],
+							"options": {
+								"urlencoded": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseurl}}/login",
@@ -168,7 +171,10 @@
 									"value": "12345678",
 									"type": "text"
 								}
-							]
+							],
+							"options": {
+								"urlencoded": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseurl}}/signup",
@@ -286,7 +292,7 @@
 								},
 								{
 									"key": "boxId",
-									"value": "KIT01",
+									"value": "KIT_01",
 									"type": "text"
 								}
 							]
@@ -333,12 +339,12 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "Kitchen Dups",
+									"value": "Kitchen",
 									"type": "text"
 								},
 								{
 									"key": "boxId",
-									"value": "KIT01",
+									"value": "KIT_01",
 									"type": "text"
 								}
 							]
@@ -505,7 +511,71 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Success 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/devices/list/1",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"devices",
+										"list",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "375"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"177-jINe23jzdbdJkCDZHFMd7Hs1Om8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Nov 2020 05:00:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"surname\": \"Center Fan\",\n            \"switchNo\": \"1\",\n            \"speed\": 0,\n            \"status\": 0,\n            \"name\": \"Fan\",\n            \"url\": \"/uploads/devices/fan.png\",\n            \"activeurl\": \"/uploads/devices/fan-active.png\",\n            \"type\": \"fan\",\n            \"refId\": 4\n        },\n        {\n            \"id\": 2,\n            \"surname\": \"hub\",\n            \"switchNo\": \"2\",\n            \"speed\": 0,\n            \"status\": 1,\n            \"name\": \"USB Cable\",\n            \"url\": \"/uploads/devices/usb.png\",\n            \"activeurl\": \"/uploads/devices/usb-active.png\",\n            \"type\": \"usb\",\n            \"refId\": 7\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "add",
@@ -538,6 +608,11 @@
 								},
 								{
 									"key": "roomId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "switchNo",
 									"value": "2",
 									"type": "text"
 								}
@@ -604,7 +679,7 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "My Fan",
+									"value": "Center Fan",
 									"type": "text"
 								},
 								{
@@ -648,7 +723,12 @@
 								},
 								{
 									"key": "speed",
-									"value": "3",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "switchNo",
+									"value": "1",
 									"type": "text"
 								}
 							]
