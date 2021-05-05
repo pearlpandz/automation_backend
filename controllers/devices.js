@@ -169,7 +169,7 @@ exports.statusUpdate = function (req, res) {
                 connection.query(sql, true, (error, results, fields) => {
                     connection.release();
                     if (error) {
-                        return res.status(400).send({ message: error.message });
+                        return res.status(400).send({ message: 'test '+error.message });
                     }
                     return res.status(200).send({ message: 'Device information updated!', data: results });
                 });
