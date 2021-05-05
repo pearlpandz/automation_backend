@@ -143,11 +143,6 @@ exports.statusUpdate = function (req, res) {
                 success: false,
                 message: 'Status is required',
             });
-        } else if (req.body.speed > -1) {
-            return res.status(400).send({
-                success: false,
-                message: 'Speed is required',
-            });
         } else if (!req.params.id) {
             return res.status(400).send({
                 success: false,
