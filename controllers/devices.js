@@ -143,7 +143,7 @@ exports.statusUpdate = function (req, res) {
                 success: false,
                 message: 'Status is required',
             });
-        } else if (req.body.speed == '') {
+        } else if (req.body.speed > -1) {
             return res.status(400).send({
                 success: false,
                 message: 'Speed is required',
@@ -153,12 +153,14 @@ exports.statusUpdate = function (req, res) {
                 success: false,
                 message: 'Parameter Device ID is required',
             });
-        } else if (req.body.switchNo == '') {
-            return res.status(400).send({
-                success: false,
-                message: 'Switch No is required',
-            });
-        } else {
+        } 
+        // else if (req.body.switchNo > 0) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Switch No is required',
+        //     });
+        // } 
+        else {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
