@@ -143,7 +143,7 @@ exports.statusUpdate = function (req, res) {
                 success: false,
                 message: 'Status is required',
             });
-        } else if (req.body.speed > -1) {
+        } else if (req.body.speed < 0) {
             return res.status(400).send({
                 success: false,
                 message: 'Speed is required',
@@ -153,13 +153,13 @@ exports.statusUpdate = function (req, res) {
                 success: false,
                 message: 'Parameter Device ID is required',
             });
-        } 
-        // else if (req.body.switchNo > 0) {
-        //     return res.status(400).send({
-        //         success: false,
-        //         message: 'Switch No is required',
-        //     });
-        // } 
+        }
+        else if (req.body.switchNo < 0) {
+            return res.status(400).send({
+                success: false,
+                message: 'Switch No is required',
+            });
+        }
         else {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
@@ -169,7 +169,7 @@ exports.statusUpdate = function (req, res) {
                 connection.query(sql, true, (error, results, fields) => {
                     connection.release();
                     if (error) {
-                        return res.status(400).send({ message: 'test '+error.message });
+                        return res.status(400).send({ message: 'test ' + error.message });
                     }
                     return res.status(200).send({ message: 'Device information updated!', data: results });
                 });
