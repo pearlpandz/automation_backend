@@ -138,34 +138,34 @@ exports.update = function (req, res) {
 
 exports.statusUpdate = function (req, res) {
     try {
-        if (!req.body.status) {
-            return res.status(400).send({
-                success: false,
-                message: 'Status is required',
-            });
-        } else if (req.body.speed < 0) {
-            return res.status(400).send({
-                success: false,
-                message: 'Speed is required',
-            });
-        } else if (req.params.id == '') {
-            return res.status(400).send({
-                success: false,
-                message: 'Parameter Device ID is required',
-            });
-        }
-        else if (req.body.switchNo < 0) {
-            return res.status(400).send({
-                success: false,
-                message: 'Switch No is required',
-            });
-        }
-        else {
+        // if (req.body.status) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Status is required',
+        //     });
+        // } else if (req.body.speed < 0) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Speed is required',
+        //     });
+        // } else if (req.params.id == '') {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Parameter Device ID is required',
+        //     });
+        // }
+        // else if (req.body.switchNo < 0) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Switch No is required',
+        //     });
+        // }
+        // else {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}', '${req.body.switchNo}')`;
+                let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}')`;
                 connection.query(sql, true, (error, results, fields) => {
                     connection.release();
                     if (error) {
@@ -174,7 +174,7 @@ exports.statusUpdate = function (req, res) {
                     return res.status(200).send({ message: 'Device information updated!', data: results });
                 });
             });
-        }
+        // }
     } catch (err) {
         return res.status(500).send(err.toString());
     }
