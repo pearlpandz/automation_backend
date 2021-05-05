@@ -143,12 +143,17 @@ exports.statusUpdate = function (req, res) {
                 success: false,
                 message: 'Status is required',
             });
-        } else if (!req.params.id) {
+        } else if (req.body.speed == '') {
+            return res.status(400).send({
+                success: false,
+                message: 'Speed is required',
+            });
+        } else if (req.params.id == '') {
             return res.status(400).send({
                 success: false,
                 message: 'Parameter Device ID is required',
             });
-        } else if (!req.body.switchNo) {
+        } else if (req.body.switchNo == '') {
             return res.status(400).send({
                 success: false,
                 message: 'Switch No is required',
