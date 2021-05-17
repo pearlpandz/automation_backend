@@ -40,7 +40,7 @@ router.delete('/device/:id', middleware.checkToken, Devices.delete);
 
 // mqtt
 router.get('/mqtt/getDeviceStatus', mqtt.getDeviceStatus);
-router.get('/mqtt/switchState', mqtt.switchState);
+router.post('/mqtt/switchState', mqtt.switchState);
 router.get('/mqtt/getAllDevices', mqtt.getAllDevices);
     
 // scheduler
