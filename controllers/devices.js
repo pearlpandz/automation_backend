@@ -1,6 +1,15 @@
 let mysql = require('mysql');
 const config = require('../config/config');
 const moment = require('moment');
+const mqtt = require('mqtt');
+
+// mqtt
+var options = {
+    port: 1883,
+    host: 'mqtt://3.80.11.175',
+    username: 'geomeo',
+    password: '12345'
+};
 
 // let connection = mysql.createConnection(config);
 let pool = mysql.createPool(config);
@@ -161,19 +170,40 @@ exports.statusUpdate = function (req, res) {
         //     });
         // }
         // else {
-            pool.getConnection(function (err, connection) {
-                if (err) return res.status(500).send(err); // not connected!
+        let client = mqtt.connect("mqtt://3.80.11.175", options);
+        let body = {
+            type: "Gang_box",  // box type,
+            id: req.body.boxId, // box id
+            topic: `rpi/sw${req.body.switchNo}`, // `rpi/sw${switchNo}` - Switch No
+            value: req.body.status // status of the appliance
+        }
 
-                // Use the connection
-                let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}')`;
-                connection.query(sql, true, (error, results, fields) => {
-                    connection.release();
-                    if (error) {
-                        return res.status(400).send({ message: 'test ' + error.message });
-                    }
-                    return res.status(200).send({ message: 'Device information updated!', data: results });
-                });
-            });
+        client.on('connect', function () {
+            client.publish(body.topic, JSON.stringify(body), (err, result) => {
+                if (err) {
+                    return res.json({ err, result, message: "error", error: err, result: result });
+                } else {
+                    console.log({ err, result, message: "error", error: err, result: result });
+
+                    pool.getConnection(function (err, connection) {
+                        if (err) return res.status(500).send(err); // not connected!
+
+                        // Use the connection
+                        let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}')`;
+                        connection.query(sql, true, (error, results, fields) => {
+                            connection.release();
+                            if (error) {
+                                console.log('error');
+                                return res.status(400).send({ message: 'test ' + error.message });
+                            }
+                            console.log('success');
+                            return res.status(200).send({ message: 'Device information updated!', data: results });
+                        });
+                    });
+                }
+            })
+        })
+
         // }
     } catch (err) {
         return res.status(500).send(err.toString());

@@ -40,6 +40,7 @@ exports.getAllDevices = async (req, res) => {
 }
 
 exports.switchState = (req, res) => {
+    
     let client = mqtt.connect("mqtt://3.80.11.175", options);
     let body = {
         type: "Gang_box",  // box type,
@@ -48,16 +49,18 @@ exports.switchState = (req, res) => {
         value: req.body.value // status of the appliance
     }
 
+    console.log(body);
+
     client.on('connect', function () {
-        client.publish(req.body.topic, JSON.stringify(body), (err, result) => {
+        client.publish(body.topic, JSON.stringify(body), (err, result) => {
             if (err) {
                 return res.json({ err, result, message: "error", error: err, result: result });
             } else {
                 return res.json({ err, result, message: "success", error: err, result: result });
             }
         })
-        // client.subscribe(req.body.topic, (topic, message) => {
-        //     return res.json({ topic: topic, message: message });
-        // })
     })
+    // client.subscribe(req.body.topic, (topic, message) => {
+    //     return res.json({ topic: topic, message: message });
+    // })
 }
