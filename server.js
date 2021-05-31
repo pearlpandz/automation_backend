@@ -20,7 +20,7 @@ app.use(bodyParser.json({ limit: '100mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true, parameterLimit: 500000 }));
 
 // given full permission to access this folder
-app.use(express.static(path.join(__dirname, '/public')));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(function (req, res, next) {
