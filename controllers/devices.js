@@ -147,29 +147,6 @@ exports.update = function (req, res) {
 
 exports.statusUpdate = function (req, res) {
     try {
-        // if (req.body.status) {
-        //     return res.status(400).send({
-        //         success: false,
-        //         message: 'Status is required',
-        //     });
-        // } else if (req.body.speed < 0) {
-        //     return res.status(400).send({
-        //         success: false,
-        //         message: 'Speed is required',
-        //     });
-        // } else if (req.params.id == '') {
-        //     return res.status(400).send({
-        //         success: false,
-        //         message: 'Parameter Device ID is required',
-        //     });
-        // }
-        // else if (req.body.switchNo < 0) {
-        //     return res.status(400).send({
-        //         success: false,
-        //         message: 'Switch No is required',
-        //     });
-        // }
-        // else {
         let client = mqtt.connect("mqtt://3.80.11.175", options);
         let body = {
             type: "Gang_box",  // box type,
@@ -177,16 +154,28 @@ exports.statusUpdate = function (req, res) {
             topic: `rpi/sw${req.body.switchNo}`, // `rpi/sw${switchNo}` - Switch No
             value: req.body.status // status of the appliance
         }
+          
+        client.on('error', err => {
+            client.end();
+            return res.status(500).send(err);
+          });
 
         client.on('connect', function () {
+            console.log('in connection')
             client.publish(body.topic, JSON.stringify(body), (err, result) => {
+                console.log('in publish')
                 if (err) {
+                    console.log('in error')
                     return res.json({ err, result, message: "error", error: err, result: result });
                 } else {
+                    console.log('in success')
                     console.log({ err, result, message: "error", error: err, result: result });
 
                     pool.getConnection(function (err, connection) {
-                        if (err) return res.status(500).send(err); // not connected!
+                        if (err) {
+                            console.log('in pool error')
+                            return res.status(500).send(err); // not connected!
+                        }
 
                         // Use the connection
                         let sql = `call iot.room_device_statusUpdate('${req.body.status}','${req.body.speed}','${req.params.id}')`;
@@ -203,6 +192,8 @@ exports.statusUpdate = function (req, res) {
                 }
             })
         })
+
+        
 
         // }
     } catch (err) {

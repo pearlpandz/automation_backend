@@ -13,6 +13,7 @@ const Devices = require('./../controllers/devices');
 const mqtt = require('./../controllers/mqtt');
 const scheduler = require('./../scheduler/scheduler');
 const schedule = require('./../controllers/scheduler');
+const mailer = require('./../nodemailer/mail');
 
 // auth
 router.post('/signup', User.signup);
@@ -42,7 +43,7 @@ router.delete('/device/:id', middleware.checkToken, Devices.delete);
 router.get('/mqtt/getDeviceStatus', mqtt.getDeviceStatus);
 router.post('/mqtt/switchState', mqtt.switchState);
 router.get('/mqtt/getAllDevices', mqtt.getAllDevices);
-    
+
 // scheduler
 router.post('/scheduler/add', middleware.checkToken, schedule.add);
 router.get('/scheduler/list', middleware.checkToken, schedule.list);
@@ -55,4 +56,7 @@ router.delete('/scheduler/delete/:id', middleware.checkToken, schedule.delete);
 router.get('/scheduler/start', scheduler.start);
 router.get('/scheduler/stop', scheduler.stop);
 
-module.exports = router; 
+// nodemailer
+router.get('/sendEmail', mailer.sendEmail);
+
+module.exports = router;
