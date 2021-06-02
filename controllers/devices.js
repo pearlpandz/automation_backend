@@ -1,15 +1,10 @@
 let mysql = require('mysql');
-const config = require('../config/config');
 const moment = require('moment');
 const mqtt = require('mqtt');
+const { config, mqtt_options } = require('./../config/config');
 
 // mqtt
-var options = {
-    port: 1883,
-    host: 'mqtt://3.80.11.175',
-    username: 'geomeo',
-    password: '12345'
-};
+var options = mqtt_options;
 
 // let connection = mysql.createConnection(config);
 let pool = mysql.createPool(config);
@@ -147,18 +142,18 @@ exports.update = function (req, res) {
 
 exports.statusUpdate = function (req, res) {
     try {
-        let client = mqtt.connect("mqtt://3.80.11.175", options);
+        let client = mqtt.connect(options.host, options);
         let body = {
             type: "Gang_box",  // box type,
             id: req.body.boxId, // box id
             topic: `rpi/sw${req.body.switchNo}`, // `rpi/sw${switchNo}` - Switch No
             value: req.body.status // status of the appliance
         }
-          
+
         client.on('error', err => {
             client.end();
             return res.status(500).send(err);
-          });
+        });
 
         client.on('connect', function () {
             console.log('in connection')
@@ -193,7 +188,7 @@ exports.statusUpdate = function (req, res) {
             })
         })
 
-        
+
 
         // }
     } catch (err) {

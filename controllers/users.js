@@ -1,6 +1,6 @@
 // Modals
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
+const {config} = require('../config/config');
 let mysql = require('mysql');
 
 function getToken(userid) {
@@ -45,7 +45,7 @@ exports.signup = function (req, res) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let sql = `call iot.user_createupdate(0,'${req.body.name}', ${req.body.mobile}, '${req.body.password}', '${req.body.email}', '${req.body.role}')`;
+                let sql = `call iot.customer_post_put(0,'${req.body.name}', ${req.body.mobile}, '${req.body.password}', '${req.body.email}', '${req.body.role}')`;
 
                 connection.query(sql, true, (error) => {
                     connection.release();
@@ -78,7 +78,7 @@ exports.login = function (req, res) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let sql1 = `call iot.user_single('${req.body.email}', '${req.body.password}')`;
+                let sql1 = `call iot.customer_login('${req.body.email}', '${req.body.password}')`;
                 connection.query(sql1, true, (error1, results1) => {
                     connection.release();
                     if (error1) {
@@ -104,7 +104,7 @@ exports.list = (req, res) => {
             if (err) return res.status(500).send(err); // not connected!
 
             // Use the connection
-            let sql = `call iot.users_activelist()`;
+            let sql = `call iot.customer_get_list()`;
             connection.query(sql, true, (error, results) => {
                 connection.release();
                 if (error) {

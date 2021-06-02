@@ -1,6 +1,6 @@
 var cron = require('node-cron');
 let mysql = require('mysql');
-const config = require('../config/config');
+const {config} = require('../config/config');
 const moment = require('moment');
 
 let connection = mysql.createConnection(config);
@@ -32,10 +32,16 @@ var task = cron.schedule('* * * * *', () => {
 
     let sql1 = `update iot.rooms_devices set status = 1 where id IN (${activeDevicesIds.toString()});`;
     let sql2 = `update iot.rooms_devices set status = 0 where id IN (${inActiveDevicesids.toString()});`;
+    
+    // switch off devices here
+
     connection.query(sql1, true, (error1, results1, fields1) => {
       if (error1) {
         console.log(error1.message)
       }
+
+      // switch on devices here
+
       connection.query(sql2, true, (error2, results2, fields2) => {
         if (error1) {
           console.log(error2.message)

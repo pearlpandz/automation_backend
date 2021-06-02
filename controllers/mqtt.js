@@ -1,18 +1,14 @@
 
 const mqtt = require('mqtt');
-const converter = require('utf8-string-bytes')
+const converter = require('utf8-string-bytes');
+const { mqtt_options } = require('./../config/config');
 // import { utf8ByteArrayToString, stringToUtf8ByteArray } from 'utf8-string-bytes';
 
 // mqtt
-var options = {
-    port: 1883,
-    host: 'mqtt://3.80.11.175',
-    username: 'geomeo',
-    password: '12345'
-};
+var options = mqtt_options;
 
 exports.getDeviceStatus = (req, res) => {
-    let client = mqtt.connect("mqtt://3.80.11.175", options);
+    let client = mqtt.connect(options.host, options);
     client.on('connect', function () {
         client.subscribe(req.body.topic);
     })
@@ -23,7 +19,7 @@ exports.getDeviceStatus = (req, res) => {
 }
 
 exports.getAllDevices = async (req, res) => {
-    let client = mqtt.connect("mqtt://3.80.11.175", options);
+    let client = mqtt.connect(options.host, options);
     let devices = [];
     client.on('connect', function () {
         client.subscribe('#');
@@ -40,8 +36,8 @@ exports.getAllDevices = async (req, res) => {
 }
 
 exports.switchState = (req, res) => {
-    
-    let client = mqtt.connect("mqtt://3.80.11.175", options);
+
+    let client = mqtt.connect(options.host, options);
     let body = {
         type: "Gang_box",  // box type,
         id: req.body.boxId, // box id
