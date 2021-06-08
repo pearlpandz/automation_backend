@@ -7,6 +7,7 @@ var multer = require('multer');
 const middleware = require('./../middleware/jwt');
 
 // Controllers
+const Admin = require('./../controllers/admin');
 const User = require('./../controllers/users');
 const Rooms = require('./../controllers/rooms');
 const Devices = require('./../controllers/devices');
@@ -15,8 +16,12 @@ const scheduler = require('./../scheduler/scheduler');
 const schedule = require('./../controllers/scheduler');
 const mailer = require('./../nodemailer/mail');
 
+// admin
+router.post('/admin/login', Admin.login);
+router.post('/customer/add', middleware.checkToken, User.signup);
+
+
 // auth
-router.post('/signup', User.signup);
 router.post('/login', User.login);
 
 // users
@@ -57,6 +62,6 @@ router.get('/scheduler/start', scheduler.start);
 router.get('/scheduler/stop', scheduler.stop);
 
 // nodemailer
-router.get('/sendEmail', mailer.sendEmail);
+// router.get('/sendEmail', mailer.sendEmail);
 
 module.exports = router;

@@ -1,12 +1,24 @@
 // Modals
 const jwt = require('jsonwebtoken');
-const {config} = require('../config/config');
+const { config } = require('../config/config');
 let mysql = require('mysql');
+const { sendEmailForWelcome } = require('./../nodemailer/mail');
 
 function getToken(userid) {
     return jwt.sign({ id: userid }, config.secret, {
-        expiresIn: 60 * 60 * 24 * 365 * 9999
+        expiresIn: 60 * 60 * 24 * 365 * 9999,
+        role: 'customer'
     });
+}
+
+function randomPassword(length) {
+    var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+    var pass = "";
+    for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
 }
 
 // let connection = mysql.createConnection(config);
@@ -15,44 +27,48 @@ let pool = mysql.createPool(config);
 
 exports.signup = function (req, res) {
     try {
-        if (!req.body.mobile) {
-            return res.status(400).send({
-                success: false,
-                message: 'Mobile Number is required',
-            });
-        } else if (!req.body.name) {
+        if (!req.body.name) {
             return res.status(400).send({
                 success: false,
                 message: 'Name is required',
+            });
+        } else if (!req.body.mobile) {
+            return res.status(400).send({
+                success: false,
+                message: 'Mobile Number is required',
             });
         } else if (!req.body.email) {
             return res.status(400).send({
                 success: false,
                 message: 'Email is required',
             });
-        } else if (!req.body.password) {
-            return res.status(400).send({
-                success: false,
-                message: "Password is required",
-            });
-        } else if (!req.body.role) {
-            return res.status(400).send({
-                success: false,
-                message: 'Role is required',
-            });
         } else {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let sql = `call iot.customer_post_put(0,'${req.body.name}', ${req.body.mobile}, '${req.body.password}', '${req.body.email}', '${req.body.role}')`;
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_post_put(0, '${req.body.name}', ${req.body.mobile}, '${randomPassword(8)}', '${req.body.email}', @_returnValue);
+                select @_returnValue;`
 
-                connection.query(sql, true, (error) => {
+                connection.query(sql, true, async (error, results) => {
                     connection.release();
                     if (error) {
                         return res.status(400).send(error);
+                    } else {
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 201) {
+                            await sendEmailForWelcome(_results[0][0]).then(email => {
+                                console.log(email);
+                                return res.status(200).send({ message: 'User Successfully Created!' });
+                            })
+                        } else if (_statuscode === 409) {
+                            return res.status(200).send({ message: 'Email or Mobile already exist!' });
+                        } else {
+                            return res.status(200).send({ message: 'Something went wrong, Internal server error!' });
+                        }
                     }
-                    return res.status(200).send({ message: 'User Successfully Created!' });
                 });
             });
         }
