@@ -1,0 +1,21 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Deploy Node Js (API)
+        uses: appleboy/ssh-action@v0.1.2
+        with: 
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+          
+          script: 
+            cd automation_backend
+            git pull
+            pm2 restart 0
+            echo 'Deployment successfull to digital ocean'
