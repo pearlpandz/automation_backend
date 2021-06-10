@@ -94,7 +94,7 @@ exports.login = function (req, res) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let sql1 = `call iot.customer_login('${req.body.email}', '${req.body.password}')`;
+                let sql1 = `call iot.new_customer_login('${req.body.email}', '${req.body.password}')`;
                 connection.query(sql1, true, (error1, results1) => {
                     connection.release();
                     if (error1) {
