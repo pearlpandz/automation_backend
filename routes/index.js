@@ -18,15 +18,13 @@ const mailer = require('./../nodemailer/mail');
 
 // admin
 router.post('/admin/login', Admin.login);
+router.get('/customer/list', middleware.checkToken, User.CustomerList);
 router.post('/customer/add', middleware.checkToken, User.AddCustomer);
 router.put('/customer/edit/:id', middleware.checkToken, User.UpdateCustomer);
 
 
 // auth
 router.post('/login', User.login);
-
-// users
-router.get('/users/list', middleware.checkToken, User.list);
 
 // rooms
 router.get('/rooms/list', middleware.checkToken, Rooms.list);

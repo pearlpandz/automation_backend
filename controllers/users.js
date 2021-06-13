@@ -205,13 +205,13 @@ exports.login = function (req, res) {
     }
 };
 
-exports.list = (req, res) => {
+exports.CustomerList = (req, res) => {
     try {
         pool.getConnection(function (err, connection) {
             if (err) return res.status(500).send(err); // not connected!
 
             // Use the connection
-            let sql = `call iot.customer_get_list()`;
+            let sql = `call iot.new_customer_get_list()`;
             connection.query(sql, true, (error, results) => {
                 connection.release();
                 if (error) {
