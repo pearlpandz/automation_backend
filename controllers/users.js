@@ -64,15 +64,15 @@ exports.AddCustomer = function (req, res) {
                     } else {
                         const _results = results.filter(a => a.length > 0);
                         const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
-                        if (_statuscode === 201) {
-                            sendEmailForWelcome({
-                                name: req.body.name,
-                                email: req.body.email,
-                                password: password
-                            }).then(() => {
-                                return res.status(201).send({ message: 'User Successfully Created!' });
-                            })
-                        } else if (_statuscode === 409) {
+                        if (_statuscode == 201) {
+                            // sendEmailForWelcome({
+                            //     name: req.body.name,
+                            //     email: req.body.email,
+                            //     password: password
+                            // })
+                            return res.status(201).send({ message: 'User Successfully Created!' });
+
+                        } else if (_statuscode == 409) {
                             return res.status(409).send({ message: 'Email or Mobile already exist!' });
                         } else {
                             return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
