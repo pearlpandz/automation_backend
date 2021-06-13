@@ -78,10 +78,11 @@ exports.AddCustomer = function (req, res) {
                         if (_statuscode == 201) {
                             const data = await ejs.renderFile(`email-templates/welcome.ejs`, {
                                 name: req.body.name,
-                                token: btoa(req.body.email),
+                                token: Buffer.from(req.body.email, 'binary').toString('base64'),
                                 email: req.body.email,
                                 password: password
                             });
+                            // Buffer.from('SOlsbPMgd/NybGQhIQ==', 'base64').toString('binary')
                             var mailOptions = {
                                 from: `"Quantanics" <no-reply@quantanics.in>`,
                                 to: `${req.body.email}`,
