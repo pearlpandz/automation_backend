@@ -1,5 +1,5 @@
 const config = {
-    host: "165.22.208.52", // "iot.c3yfy0oqxffp.ap-south-1.rds.amazonaws.com", 
+    host: "localhost", // "iot.c3yfy0oqxffp.ap-south-1.rds.amazonaws.com", 
     port: 3306,
     user: 'quantanics', // "root", 
     password: "quantanics", 
