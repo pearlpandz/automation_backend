@@ -66,15 +66,17 @@ exports.AddCustomer = function (req, res) {
                 call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', '${req.body.address}', @_returnValue);
                 select @_returnValue;`
 
-                connection.query(sql, true, (error, results) => {
+                connection.query(sql, true, async (error, results) => {
                     connection.release();
                     if (error) {
                         return res.status(400).send(error);
                     } else {
                         const _results = results.filter(a => a.length > 0);
+                        
                         const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        
                         if (_statuscode == 201) {
-                            const data = ejs.renderFile(`email-templates/welcome.ejs`, {
+                            const data = await ejs.renderFile(`email-templates/welcome.ejs`, {
                                 name: req.body.name,
                                 token: btoa(req.body.email),
                                 email: req.body.email,
@@ -89,6 +91,7 @@ exports.AddCustomer = function (req, res) {
 
                             transporter.sendMail(mailOptions, function (err, info) {
                                 if (err) {
+                                    console.log(err);
                                     return res.status(500).send({ message: 'Something went wrong, Internal server error!', err });
                                 }
                                 else {
