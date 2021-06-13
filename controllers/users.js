@@ -48,16 +48,16 @@ exports.AddCustomer = function (req, res) {
                 message: 'Address is required',
             });
         } else {
-            pool.getConnection(async function (err, connection) {
+            pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let password = await randomPassword(8);
+                let password = randomPassword(8);
                 let sql = `set @_returnValue = 0;
                 call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', '${req.body.address}', @_returnValue);
                 select @_returnValue;`
 
-                connection.query(sql, true, async (error, results) => {
+                connection.query(sql, true, (error, results) => {
                     connection.release();
                     if (error) {
                         return res.status(400).send(error);
@@ -65,12 +65,13 @@ exports.AddCustomer = function (req, res) {
                         const _results = results.filter(a => a.length > 0);
                         const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
                         if (_statuscode === 201) {
-                            await sendEmailForWelcome({
+                            sendEmailForWelcome({
                                 name: req.body.name,
                                 email: req.body.email,
                                 password: password
-                            });
-                            return res.status(201).send({ message: 'User Successfully Created!' });
+                            }).then(() => {
+                                return res.status(201).send({ message: 'User Successfully Created!' });
+                            })
                         } else if (_statuscode === 409) {
                             return res.status(409).send({ message: 'Email or Mobile already exist!' });
                         } else {
