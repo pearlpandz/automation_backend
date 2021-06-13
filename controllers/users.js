@@ -24,8 +24,66 @@ function randomPassword(length) {
 // let connection = mysql.createConnection(config);
 let pool = mysql.createPool(config);
 
+// create customer by admin
+exports.AddCustomer = function (req, res) {
+    try {
+        if (!req.body.name) {
+            return res.status(400).send({
+                success: false,
+                message: 'Name is required',
+            });
+        } else if (!req.body.mobile) {
+            return res.status(400).send({
+                success: false,
+                message: 'Mobile Number is required',
+            });
+        } else if (!req.body.email) {
+            return res.status(400).send({
+                success: false,
+                message: 'Email is required',
+            });
+        } else {
+            pool.getConnection(async function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
 
-exports.signup = function (req, res) {
+                // Use the connection
+                let password = await randomPassword(8);
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', @_returnValue);
+                select @_returnValue;`
+
+                connection.query(sql, true, async (error, results) => {
+                    connection.release();
+                    if (error) {
+                        return res.status(400).send(error);
+                    } else {
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 201) {
+                            await sendEmailForWelcome({
+                                name: req.body.name,
+                                email: req.body.email,
+                                password: password
+                            }).then(email => {
+                                console.log(email);
+                                return res.status(201).send({ message: 'User Successfully Created!' });
+                            })
+                        } else if (_statuscode === 409) {
+                            return res.status(409).send({ message: 'Email or Mobile already exist!' });
+                        } else {
+                            return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
+                        }
+                    }
+                });
+            });
+        }
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+};
+
+// edit customer by admin
+exports.UpdateCustomer = function (req, res) {
     try {
         if (!req.body.name) {
             return res.status(400).send({
@@ -48,7 +106,7 @@ exports.signup = function (req, res) {
 
                 // Use the connection
                 let sql = `set @_returnValue = 0;
-                call iot.new_customer_post_put(0, '${req.body.name}', ${req.body.mobile}, '${randomPassword(8)}', '${req.body.email}', @_returnValue);
+                call iot.new_customer_put('${req.params.id}','${req.body.name}', ${req.body.mobile}, '${req.body.email}', @_returnValue);
                 select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {
@@ -58,15 +116,12 @@ exports.signup = function (req, res) {
                     } else {
                         const _results = results.filter(a => a.length > 0);
                         const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
-                        if (_statuscode === 201) {
-                            await sendEmailForWelcome(_results[0][0]).then(email => {
-                                console.log(email);
-                                return res.status(200).send({ message: 'User Successfully Created!' });
-                            })
-                        } else if (_statuscode === 409) {
-                            return res.status(200).send({ message: 'Email or Mobile already exist!' });
+                        if (_statuscode === 200) {
+                            return res.status(200).send({ message: 'User Successfully Updated!' });
+                        } else if (_statuscode === 404) {
+                            return res.status(404).send({ message: 'Sorry, User does not exist!' });
                         } else {
-                            return res.status(200).send({ message: 'Something went wrong, Internal server error!' });
+                            return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
                         }
                     }
                 });

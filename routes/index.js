@@ -18,7 +18,8 @@ const mailer = require('./../nodemailer/mail');
 
 // admin
 router.post('/admin/login', Admin.login);
-router.post('/customer/add', middleware.checkToken, User.signup);
+router.post('/customer/add', middleware.checkToken, User.AddCustomer);
+router.put('/customer/edit/:id', middleware.checkToken, User.UpdateCustomer);
 
 
 // auth
