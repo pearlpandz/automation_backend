@@ -1,3 +1,3 @@
-# automation_backend
+# Automation Backend
 
-It's a API project form react js from frontend, which is built with Node Js
+This is project is for home automation backend, built with Node Js, Express & MySQL
