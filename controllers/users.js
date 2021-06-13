@@ -69,10 +69,8 @@ exports.AddCustomer = function (req, res) {
                                 name: req.body.name,
                                 email: req.body.email,
                                 password: password
-                            }).then(email => {
-                                console.log(email);
-                                return res.status(201).send({ message: 'User Successfully Created!' });
-                            })
+                            });
+                            return res.status(201).send({ message: 'User Successfully Created!' });
                         } else if (_statuscode === 409) {
                             return res.status(409).send({ message: 'Email or Mobile already exist!' });
                         } else {
