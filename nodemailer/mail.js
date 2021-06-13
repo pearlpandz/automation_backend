@@ -10,7 +10,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-exports.sendEmailForWelcome = async function (req, res) {
+exports.sendEmailForWelcome = async function (req) {
     const data = await ejs.renderFile(`email-templates/welcome.ejs`, {
         name: req.name,
         token: btoa(req.email),
@@ -27,11 +27,11 @@ exports.sendEmailForWelcome = async function (req, res) {
     transporter.sendMail(mailOptions, function (err, info) {
         if (err) {
             console.log(err);
-            return res.send({ error: 'Error while sending email' + err, status: false })
+            return err
         }
         else {
             console.log("Email sent");
-            return res.send({ status: true })
+            return true
         }
     });
 
