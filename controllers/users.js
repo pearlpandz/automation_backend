@@ -2,7 +2,16 @@
 const jwt = require('jsonwebtoken');
 const { config } = require('../config/config');
 let mysql = require('mysql');
-const { sendEmailForWelcome } = require('./../nodemailer/mail');
+var nodemailer = require("nodemailer");
+var ejs = require("ejs");
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    auth: {
+        user: 'quantanics.in@gmail.com', // your domain email address
+        pass: 'keshavan00194' // your password
+    }
+});
 
 function getToken(userid) {
     return jwt.sign({ id: userid }, config.secret, {
@@ -65,13 +74,27 @@ exports.AddCustomer = function (req, res) {
                         const _results = results.filter(a => a.length > 0);
                         const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
                         if (_statuscode == 201) {
-                            // sendEmailForWelcome({
-                            //     name: req.body.name,
-                            //     email: req.body.email,
-                            //     password: password
-                            // })
-                            return res.status(201).send({ message: 'User Successfully Created!' });
+                            const data = ejs.renderFile(`email-templates/welcome.ejs`, {
+                                name: req.body.name,
+                                token: btoa(req.body.email),
+                                email: req.body.email,
+                                password: password
+                            });
+                            var mailOptions = {
+                                from: `"Quantanics" <no-reply@quantanics.in>`,
+                                to: `${req.body.email}`,
+                                subject: `Welcome ${req.body.name}`,
+                                html: data
+                            };
 
+                            transporter.sendMail(mailOptions, function (err, info) {
+                                if (err) {
+                                    return res.status(500).send({ message: 'Something went wrong, Internal server error!', err });
+                                }
+                                else {
+                                    return res.status(201).send({ message: 'User Successfully Created!' });
+                                }
+                            });
                         } else if (_statuscode == 409) {
                             return res.status(409).send({ message: 'Email or Mobile already exist!' });
                         } else {
