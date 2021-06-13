@@ -15,7 +15,7 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           port: ${{ secrets.SSH_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: 
+          script: |
             cd automation_backend
             git pull
             pm2 restart 0
