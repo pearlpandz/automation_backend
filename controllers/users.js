@@ -42,6 +42,11 @@ exports.AddCustomer = function (req, res) {
                 success: false,
                 message: 'Email is required',
             });
+        } else if (!req.body.address) {
+            return res.status(400).send({
+                success: false,
+                message: 'Address is required',
+            });
         } else {
             pool.getConnection(async function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
@@ -49,7 +54,7 @@ exports.AddCustomer = function (req, res) {
                 // Use the connection
                 let password = await randomPassword(8);
                 let sql = `set @_returnValue = 0;
-                call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', @_returnValue);
+                call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', '${req.body.address}', @_returnValue);
                 select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {
@@ -100,13 +105,18 @@ exports.UpdateCustomer = function (req, res) {
                 success: false,
                 message: 'Email is required',
             });
+        } else if (!req.body.address) {
+            return res.status(400).send({
+                success: false,
+                message: 'Address is required',
+            });
         } else {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
                 let sql = `set @_returnValue = 0;
-                call iot.new_customer_put('${req.params.id}','${req.body.name}', ${req.body.mobile}, '${req.body.email}', @_returnValue);
+                call iot.new_customer_put('${req.params.id}','${req.body.name}', ${req.body.mobile}, '${req.body.email}', '${req.body.address}', @_returnValue);
                 select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {
