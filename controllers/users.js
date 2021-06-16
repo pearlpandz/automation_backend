@@ -14,9 +14,8 @@ var transporter = nodemailer.createTransport({
 });
 
 function getToken(userid) {
-    return jwt.sign({ id: userid }, config.secret, {
-        expiresIn: 60 * 60 * 24 * 365 * 9999,
-        role: 'customer'
+    return jwt.sign({ __id: userid, __role: 'customer' }, config.secret, {
+        expiresIn: 60 * 60 * 24 * 365 * 9999
     });
 }
 
@@ -72,9 +71,9 @@ exports.AddCustomer = function (req, res) {
                         return res.status(400).send(error);
                     } else {
                         const _results = results.filter(a => a.length > 0);
-                        
+
                         const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
-                        
+
                         if (_statuscode == 201) {
                             const data = await ejs.renderFile(`email-templates/welcome.ejs`, {
                                 name: req.body.name,
@@ -82,7 +81,6 @@ exports.AddCustomer = function (req, res) {
                                 email: req.body.email,
                                 password: password
                             });
-                            // Buffer.from('SOlsbPMgd/NybGQhIQ==', 'base64').toString('binary')
                             var mailOptions = {
                                 from: `"Quantanics" <no-reply@quantanics.in>`,
                                 to: `${req.body.email}`,
@@ -168,6 +166,56 @@ exports.UpdateCustomer = function (req, res) {
     }
 };
 
+// customer verify by welcome mail
+exports.CustomerVerify = (req, res) => {
+    try {
+        console.log('in verification....');
+        if (!req.body.token) {
+            return res.status(400).send({
+                success: false,
+                message: 'Token is required',
+            });
+        } else {
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_verify('${Buffer.from(req.body.token, 'base64').toString('binary')}', @_returnValue);
+                select @_returnValue;`
+
+                connection.query(sql, true, async (error, results) => {
+                    connection.release();
+                    if (error) {
+                        return res.status(400).send(error);
+                    } else {
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 200) {
+                            return res.status(200).send({
+                                success: true,
+                                message: 'User Successfully verified!'
+                            });
+                        } else if (_statuscode === 404) {
+                            return res.status(404).send({
+                                success: false,
+                                message: 'Sorry, User does not exist!'
+                            });
+                        } else {
+                            return res.status(500).send({
+                                success: false,
+                                message: 'Something went wrong, Internal server error!'
+                            });
+                        }
+                    }
+                });
+            });
+        }
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
 exports.login = function (req, res) {
     try {
         if (!req.body.email) {
@@ -185,16 +233,39 @@ exports.login = function (req, res) {
                 if (err) return res.status(500).send(err); // not connected!
 
                 // Use the connection
-                let sql1 = `call iot.new_customer_login('${req.body.email}', '${req.body.password}')`;
-                connection.query(sql1, true, (error1, results1) => {
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_login('${req.body.email}', '${req.body.password}', @_returnValue);
+                select @_returnValue;`
+
+                connection.query(sql, true, (error, results) => {
                     connection.release();
-                    if (error1) {
-                        return res.status(400).send(error1);
+                    if (error) {
+                        return res.status(400).send(error);
                     } else {
-                        if (results1[0].length > 0) {
-                            return res.status(200).send({ message: 'User Successfully Login!', data: results1[0][0], token: getToken(results1[0][0].id) });
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 200) {
+                            return res.status(200).send({
+                                status: true,
+                                message: 'User Successfully Login!',
+                                data: _results[0][0],
+                                token: getToken(_results[0][0].id)
+                            });
+                        } else if (_statuscode === 400) {
+                            return res.status(404).send({
+                                success: false,
+                                message: 'Sorry, Your email or password is wrong!'
+                            });
+                        } else if (_statuscode === 401) {
+                            return res.status(404).send({
+                                success: false,
+                                message: 'Sorry, Your email address is not verified, please check your email!'
+                            });
                         } else {
-                            return res.status(404).send({ message: 'Invalid credentials!' });
+                            return res.status(500).send({
+                                success: false,
+                                message: 'Something went wrong, Internal server error!'
+                            });
                         }
                     }
                 })
@@ -224,3 +295,4 @@ exports.CustomerList = (req, res) => {
         return res.status(500).send(err.toString());
     }
 }
+

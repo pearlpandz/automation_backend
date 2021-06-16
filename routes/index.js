@@ -25,6 +25,7 @@ router.put('/customer/edit/:id', middleware.checkToken, User.UpdateCustomer);
 
 // auth
 router.post('/login', User.login);
+router.post('/verify', User.CustomerVerify);
 
 // rooms
 router.get('/rooms/list', middleware.checkToken, Rooms.list);
