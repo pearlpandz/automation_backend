@@ -252,12 +252,12 @@ exports.login = function (req, res) {
                                 token: getToken(_results[0][0].id)
                             });
                         } else if (_statuscode === 400) {
-                            return res.status(404).send({
+                            return res.status(400).send({
                                 success: false,
                                 message: 'Sorry, Your email or password is wrong!'
                             });
                         } else if (_statuscode === 401) {
-                            return res.status(404).send({
+                            return res.status(401).send({
                                 success: false,
                                 message: 'Sorry, Your email address is not verified, please check your email!'
                             });
