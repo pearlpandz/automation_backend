@@ -297,3 +297,74 @@ exports.CustomerList = (req, res) => {
     }
 }
 
+exports.CustomerGetById = (req, res) => {
+    try {
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_getById(${req.params.id}, @_returnValue);
+                select @_returnValue;`;
+
+                connection.query(sql, true, async (error, results) => {
+                    connection.release();
+                    if (error) {
+                        return res.status(400).send(error);
+                    } else {
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 200) {
+                            return res.status(200).send({ data: _results[0][0] });
+                        } else if (_statuscode === 404) {
+                            return res.status(404).send({ message: 'Sorry, User does not exist!' });
+                        } else {
+                            return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
+                        }
+                    }
+                });
+            });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.CustomerDeleteById = (req, res) => {
+    try {
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_delete(${req.params.id}, @_returnValue);
+                select @_returnValue;`;
+
+                connection.query(sql, true, async (error, results) => {
+                    connection.release();
+                    if (error) {
+                        return res.status(400).send(error);
+                    } else {
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 200) {
+                            return res.status(200).send({ message: 'User deleted successfully!' });
+                        } else if (_statuscode === 404) {
+                            return res.status(404).send({ message: 'Sorry, User does not exist!' });
+                        } else {
+                            return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
+                        }
+                    }
+                });
+            });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
