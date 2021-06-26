@@ -79,7 +79,8 @@ exports.AddCustomer = function (req, res) {
                                 name: req.body.name,
                                 token: Buffer.from(req.body.email, 'binary').toString('base64'),
                                 email: req.body.email,
-                                password: password
+                                password: password,
+                                url: 'http://165.22.208.52:3000'
                             });
                             var mailOptions = {
                                 from: `"Quantanics" <no-reply@quantanics.in>`,

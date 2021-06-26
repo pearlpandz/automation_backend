@@ -16,13 +16,21 @@ const scheduler = require('./../scheduler/scheduler');
 const schedule = require('./../controllers/scheduler');
 const mailer = require('./../nodemailer/mail');
 
-// admin
+/* ------------------------------------ Admin Portal ----------------------------- */
+// Admin/Franchise/Manufacturer Management
 router.post('/admin/login', Admin.login);
+router.get('/admin/list/:id', middleware.checkToken, Admin.AdminList);
+router.post('/admin/add', middleware.checkToken, Admin.AddAdmin);
+router.put('/admin/edit/:id', middleware.checkToken, Admin.UpdateAdmin);
+router.post('/admin/verify', Admin.AdminVerify);
+
+// Customer Management
 router.get('/customer/list', middleware.checkToken, User.CustomerList);
 router.post('/customer/add', middleware.checkToken, User.AddCustomer);
 router.put('/customer/edit/:id', middleware.checkToken, User.UpdateCustomer);
 
 
+/* ------------------------------------ Customer Portal ----------------------------- */
 // auth
 router.post('/login', User.login);
 router.post('/verify', User.CustomerVerify);
