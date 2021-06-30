@@ -62,7 +62,7 @@ exports.AddCustomer = function (req, res) {
                 // Use the connection
                 let password = randomPassword(8);
                 let sql = `set @_returnValue = 0;
-                call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', '${req.body.address}', @_returnValue);
+                call iot.new_customer_post('${req.body.name}', ${req.body.mobile}, '${password}', '${req.body.email}', '${req.body.address}','${req.decoded.id}', @_returnValue);
                 select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {

@@ -73,7 +73,7 @@ exports.AddAdmin = function (req, res) {
                 let password = randomPassword(8);
 
                 let sql = `set @_returnValue = 0;
-                call iot.new_admin_post('${req.body.name}', '${req.body.mobile}', '${password}', '${req.body.email}', '${req.body.address}', '${req.body.company}', '${req.body.roleId}', @_returnValue);
+                call iot.new_admin_post('${req.body.name}', '${req.body.mobile}', '${password}', '${req.body.email}', '${req.body.address}', '${req.body.company}', '${req.body.roleId}', '${req.decoded.id}', @_returnValue);
                 select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {
