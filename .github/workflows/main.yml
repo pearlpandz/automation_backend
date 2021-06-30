@@ -18,5 +18,5 @@ jobs:
           script: |
             cd automation_backend
             git pull
-            pm2 restart 0
+            pm2 restart server
             echo 'Deployment successfull to digital ocean'
