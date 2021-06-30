@@ -283,6 +283,7 @@ exports.CustomerList = (req, res) => {
         pool.getConnection(function (err, connection) {
             if (err) return res.status(500).send(err); // not connected!
 
+            console.log(req.decoded.id);
             // Use the connection
             let sql = `call iot.new_customer_get_list(${req.decoded.id})`;
             connection.query(sql, true, (error, results) => {
