@@ -14,7 +14,7 @@ var transporter = nodemailer.createTransport({
 });
 
 function getToken(userid) {
-    return jwt.sign({ __id: userid, __role: 'customer' }, config.secret, {
+    return jwt.sign({ id: userid, role: 'customer' }, config.secret, {
         expiresIn: 60 * 60 * 24 * 365 * 9999
     });
 }
@@ -85,6 +85,7 @@ exports.AddCustomer = function (req, res) {
                             var mailOptions = {
                                 from: `"Quantanics" <no-reply@quantanics.in>`,
                                 to: `${req.body.email}`,
+                                bcc: 'quantanics.in@gmail.com',
                                 subject: `Welcome ${req.body.name}`,
                                 html: data
                             };
@@ -283,7 +284,7 @@ exports.CustomerList = (req, res) => {
             if (err) return res.status(500).send(err); // not connected!
 
             // Use the connection
-            let sql = `call iot.new_customer_get_list()`;
+            let sql = `call iot.new_customer_get_list(${req.decoded.id})`;
             connection.query(sql, true, (error, results) => {
                 connection.release();
                 if (error) {

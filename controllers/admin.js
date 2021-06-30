@@ -14,7 +14,7 @@ var transporter = nodemailer.createTransport({
 });
 
 function getToken(userid, role) {
-    return jwt.sign({ __id: userid, __role: role }, config.secret, {
+    return jwt.sign({ id: userid, role: role }, config.secret, {
         expiresIn: 60 * 60 * 24 * 365 * 9999
     });
 }
@@ -96,6 +96,7 @@ exports.AddAdmin = function (req, res) {
                             var mailOptions = {
                                 from: `"Quantanics" <no-reply@quantanics.in>`,
                                 to: `${req.body.email}`,
+                                bcc: 'quantanics.in@gmail.com',
                                 subject: `Welcome ${req.body.name}`,
                                 html: data
                             };
