@@ -9,6 +9,8 @@ const middleware = require('./../middleware/jwt');
 // Controllers
 const Admin = require('./../controllers/admin');
 const User = require('./../controllers/users');
+const Product = require('./../controllers/product');
+
 const Rooms = require('./../controllers/rooms');
 const Devices = require('./../controllers/devices');
 const mqtt = require('./../controllers/mqtt');
@@ -33,6 +35,11 @@ router.post('/customer/add', middleware.checkToken, User.AddCustomer);
 router.put('/customer/edit/:id', middleware.checkToken, User.UpdateCustomer);
 router.delete('/customer/:id', middleware.checkToken, User.CustomerDeleteById);
 
+// Product Management
+router.post('/product', middleware.checkToken, Product.AddProduct);
+router.get('/products', middleware.checkToken, Product.ProductList);
+router.get('/product/:id', middleware.checkToken, Product.GetProduct);
+router.delete('/product/:id', middleware.checkToken, Product.DeleteProduct); 
 
 /* ------------------------------------ Customer Portal ----------------------------- */
 // auth
