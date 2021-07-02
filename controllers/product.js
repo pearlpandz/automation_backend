@@ -92,11 +92,10 @@ exports.GetProduct = function (req, res) {
                 } else {
                     const _results = results.filter(a => a.length > 0);
                     const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
-                    const _res = _results[0][0];
-                    _res.configurations = JSON.parse(_results[0][0]?.configurations)
-
                     if (_statuscode == 200) {
-                        return res.status(200).send({ data: _res  });
+                        const _res = _results[0][0];
+                        _res.configurations = JSON.parse(_results[0][0].configurations)
+                        return res.status(200).send({ data: _res });
                     } if (_statuscode == 404) {
                         return res.status(404).send({ message: 'Product Not found!' });
                     } else {
@@ -129,7 +128,7 @@ exports.DeleteProduct = function (req, res) {
                     const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
 
                     if (_statuscode == 200) {
-                        return res.status(200).send({ message: 'Product successfully deleted!'  });
+                        return res.status(200).send({ message: 'Product successfully deleted!' });
                     } if (_statuscode == 404) {
                         return res.status(404).send({ message: 'Product Not found!' });
                     } else {
