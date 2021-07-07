@@ -34,6 +34,7 @@ router.get('/customer/:id', middleware.checkToken, User.CustomerGetById);
 router.post('/customer/add', middleware.checkToken, User.AddCustomer);
 router.put('/customer/edit/:id', middleware.checkToken, User.UpdateCustomer);
 router.delete('/customer/:id', middleware.checkToken, User.CustomerDeleteById);
+router.post('/customer/transfer', middleware.checkToken, User.TransferCustomer);
 
 // Product Management
 router.post('/product', middleware.checkToken, Product.AddProduct);

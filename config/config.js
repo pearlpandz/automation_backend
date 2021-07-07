@@ -1,5 +1,5 @@
 const config = {
-    host: "localhost", // "localhost"
+    host: "localhost", // "165.22.208.52"
     port: 3306,
     user: 'quantanics', // "root", 
     password: "quantanics", 

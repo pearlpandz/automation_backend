@@ -370,3 +370,48 @@ exports.CustomerDeleteById = (req, res) => {
         return res.status(500).send(err.toString());
     }
 }
+
+// transfer customer by agent
+exports.TransferCustomer = function (req, res) {
+    try {
+        if (!req.body.customerIds) {
+            return res.status(400).send({
+                success: false,
+                message: 'Atleast one Customer Id is required',
+            });
+        } else if (!req.body.otherAgentId) {
+            return res.status(400).send({
+                success: false,
+                message: 'Agent Id (Transfer To Agent Id) is required',
+            });
+        } else {
+            pool.getConnection(function (err, connection) {
+                if (err) return res.status(500).send(err); // not connected!
+
+                // Use the connection
+                let sql = `set @_returnValue = 0;
+                call iot.new_customer_transfer('"${req.body.customerIds}"','${req.decoded.id}', '${req.body.otherAgentId}', @_returnValue);
+                select @_returnValue;`
+
+                connection.query(sql, true, async (error, results) => {
+                    connection.release();
+                    if (error) {
+                        return res.status(400).send(error);
+                    } else {
+                        const _results = results.filter(a => a.length > 0);
+                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
+                        if (_statuscode === 200) {
+                            return res.status(200).send({ message: 'Customer Successfully Transfered!' });
+                        } else if (_statuscode === 404) {
+                            return res.status(404).send({ message: 'Sorry, Agent does not exist!' });
+                        } else {
+                            return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
+                        }
+                    }
+                });
+            });
+        }
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+};
