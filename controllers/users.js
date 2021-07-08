@@ -387,11 +387,13 @@ exports.TransferCustomer = function (req, res) {
         } else {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
-
+                
                 // Use the connection
                 let sql = `set @_returnValue = 0;
-                call iot.new_customer_transfer('"${req.body.customerIds}"','${req.decoded.id}', '${req.body.otherAgentId}', @_returnValue);
+                call iot.new_customer_transfer('[${req.body.customerIds}]','${req.decoded.id}', '${req.body.otherAgentId}', @_returnValue);
                 select @_returnValue;`
+
+                console.log(sql);
 
                 connection.query(sql, true, async (error, results) => {
                     connection.release();

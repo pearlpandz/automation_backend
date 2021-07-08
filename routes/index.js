@@ -21,12 +21,14 @@ const mailer = require('./../nodemailer/mail');
 /* ------------------------------------ Admin Portal ----------------------------- */
 // Admin/Franchise/Manufacturer Management
 router.post('/admin/login', Admin.login);
-router.get('/admin/list/:id', middleware.checkToken, Admin.AdminList);
+router.get('/admin/list/:id', middleware.checkToken, Admin.AdminListByRole);
+router.get('/admin/agent/list', middleware.checkToken, Admin.ExceptAgentList);
 router.get('/admin/:id', middleware.checkToken, Admin.AdminGetById);
 router.post('/admin/add', middleware.checkToken, Admin.AddAdmin);
 router.put('/admin/edit/:id', middleware.checkToken, Admin.UpdateAdmin);
 router.post('/admin/verify', Admin.AdminVerify);
 router.delete('/admin/:id', middleware.checkToken, Admin.AdminDeleteById);
+
 
 // Customer Management
 router.get('/customer/list', middleware.checkToken, User.CustomerList);

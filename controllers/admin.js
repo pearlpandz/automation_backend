@@ -299,7 +299,7 @@ exports.login = function (req, res) {
     }
 };
 
-exports.AdminList = (req, res) => {
+exports.AdminListByRole = (req, res) => {
     try {
         pool.getConnection(function (err, connection) {
             if (err) return res.status(500).send(err); // not connected!
@@ -384,6 +384,26 @@ exports.AdminDeleteById = (req, res) => {
                         }
                     }
                 });
+            });
+        });
+    } catch (err) {
+        return res.status(500).send(err.toString());
+    }
+}
+
+exports.ExceptAgentList = (req, res) => {
+    try {
+        pool.getConnection(function (err, connection) {
+            if (err) return res.status(500).send(err); // not connected!
+
+            // Use the connection
+            let sql = `call iot.new_agent_list_except_id('${req.decoded.id}')`;
+            connection.query(sql, true, (error, results) => {
+                connection.release();
+                if (error) {
+                    return res.status(400).send(error.message);
+                }
+                return res.status(200).send(results[0]);
             });
         });
     } catch (err) {
