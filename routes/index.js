@@ -10,6 +10,7 @@ const middleware = require('./../middleware/jwt');
 const Admin = require('./../controllers/admin');
 const User = require('./../controllers/users');
 const Product = require('./../controllers/product');
+const Switch = require('./../controllers/switch');
 
 const Rooms = require('./../controllers/rooms');
 const Devices = require('./../controllers/devices');
@@ -42,7 +43,12 @@ router.post('/customer/transfer', middleware.checkToken, User.TransferCustomer);
 router.post('/product', middleware.checkToken, Product.AddProduct);
 router.get('/products', middleware.checkToken, Product.ProductList);
 router.get('/product/:id', middleware.checkToken, Product.GetProduct);
+router.put('/product/:id', middleware.checkToken, Product.EditProduct);
+router.put('/product/:id/updateProducedStocks', middleware.checkToken, Product.UpdateProducedStocks);
 router.delete('/product/:id', middleware.checkToken, Product.DeleteProduct); 
+
+// Switch List
+router.get('/switch/list', middleware.checkToken, Switch.SwitchList);
 
 /* ------------------------------------ Customer Portal ----------------------------- */
 // auth
