@@ -59,7 +59,7 @@ exports.MoveInventoryProductToAgent = function (req, res) {
                 success: false,
                 message: 'Agent is required',
             });
-        } else if (!req.body.inventoryProductIds?.length > 0) {
+        } else if (!req.body.inventoryProductIds.length > 0) {
             return res.status(400).send({
                 success: false,
                 message: 'Atleast one product required',
