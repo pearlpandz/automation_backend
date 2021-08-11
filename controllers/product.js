@@ -102,47 +102,6 @@ exports.EditProduct = function (req, res) {
     }
 };
 
-// update product and configurations by admin/manufacturer
-exports.UpdateProducedStocks = function (req, res) {
-    try {
-        if (!req.body.quantity) {
-            return res.status(400).send({
-                success: false,
-                message: 'Quantity is required',
-            });
-        } else {
-            pool.getConnection(function (err, connection) {
-                if (err) return res.status(500).send(err); // not connected!
-
-                let sql = `set @_returnValue = 0;
-                call iot.new_product_quantity_put('${req.params.id}', '${req.body.quantity}',@_returnValue);
-                select @_returnValue;`
-
-                connection.query(sql, true, async (error, results) => {
-                    connection.release();
-                    if (error) {
-                        return res.status(400).send(error);
-                    } else {
-                        const _results = results.filter(a => a.length > 0);
-
-                        const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
-
-                        if (_statuscode == 200) {
-                            return res.status(200).send({ message: 'Produced stocks successfully added!' });
-                        } else if (_statuscode == 404) {
-                            return res.status(404).send({ message: 'Product not found!' });
-                        } else {
-                            return res.status(500).send({ message: 'Something went wrong, Internal server error!' });
-                        }
-                    }
-                });
-            });
-        }
-    } catch (err) {
-        return res.status(500).send(err.toString());
-    }
-};
-
 // get product list by admin/manufacturer
 exports.ProductList = function (req, res) {
     try {

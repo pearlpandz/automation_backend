@@ -10,6 +10,7 @@ const middleware = require('./../middleware/jwt');
 const Admin = require('./../controllers/admin');
 const User = require('./../controllers/users');
 const Product = require('./../controllers/product');
+const Inventory = require('./../controllers/inventory');
 const Switch = require('./../controllers/switch');
 
 const Rooms = require('./../controllers/rooms');
@@ -44,8 +45,16 @@ router.post('/product', middleware.checkToken, Product.AddProduct);
 router.get('/products', middleware.checkToken, Product.ProductList);
 router.get('/product/:id', middleware.checkToken, Product.GetProduct);
 router.put('/product/:id', middleware.checkToken, Product.EditProduct);
-router.put('/product/:id/updateProducedStocks', middleware.checkToken, Product.UpdateProducedStocks);
 router.delete('/product/:id', middleware.checkToken, Product.DeleteProduct); 
+
+// Inventory Management
+router.post('/inventory', middleware.checkToken, Inventory.AddProductToInventory);
+router.put('/inventory/moveProductToAgent', middleware.checkToken, Inventory.MoveInventoryProductToAgent);
+router.get('/inventory/:id', middleware.checkToken, Inventory.GetInventoryProductInfo);
+router.get('/inventory/list/admin', middleware.checkToken, Inventory.GetInventoryProductListForAdmin);
+router.get('/inventory/list/agent', middleware.checkToken, Inventory.GetInventoryProductListForAgent);
+
+
 
 // Switch List
 router.get('/switch/list', middleware.checkToken, Switch.SwitchList);
