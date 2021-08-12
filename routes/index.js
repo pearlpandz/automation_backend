@@ -51,8 +51,8 @@ router.delete('/product/:id', middleware.checkToken, Product.DeleteProduct);
 router.post('/inventory', middleware.checkToken, Inventory.AddProductToInventory);
 router.put('/inventory/moveProductToAgent', middleware.checkToken, Inventory.MoveInventoryProductToAgent);
 router.get('/inventory/:id', middleware.checkToken, Inventory.GetInventoryProductInfo);
-router.get('/inventory/list/admin', middleware.checkToken, Inventory.GetInventoryProductListForAdmin);
-router.get('/inventory/list/agent', middleware.checkToken, Inventory.GetInventoryProductListForAgent);
+router.post('/inventory/list/admin', middleware.checkToken, Inventory.GetInventoryProductListForAdmin);
+router.post('/inventory/list/agent', middleware.checkToken, Inventory.GetInventoryProductListForAgent);
 
 
 

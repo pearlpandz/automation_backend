@@ -109,8 +109,15 @@ exports.GetInventoryProductListForAdmin = function (req, res) {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
+                let __status = [];
+                if (req.body.status == 'all') {
+                    __status = ["new", "available", "sold"]
+                } else {
+                    __status = [req.body.status]
+                }
+
                 let sql = `set @_returnValue = 0;
-            call iot.new_inventory_listByStatusForAdmin('${req.body.status}', @_returnValue);
+            call iot.new_inventory_listByStatusForAdmin('${JSON.stringify(__status)}', @_returnValue);
             select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {
@@ -154,8 +161,15 @@ exports.GetInventoryProductListForAgent = function (req, res) {
             pool.getConnection(function (err, connection) {
                 if (err) return res.status(500).send(err); // not connected!
 
+                let __status = [];
+                if (req.body.status == 'all') {
+                    __status = ["available", "sold"]
+                } else {
+                    __status = [req.body.status]
+                }
+
                 let sql = `set @_returnValue = 0;
-            call iot.new_inventory_listByStatusForAgent('${req.body.agentId}', '${req.body.status}', @_returnValue);
+            call iot.new_inventory_listByStatusForAgent('${req.body.agentId}', '${JSON.stringify(__status)}', @_returnValue);
             select @_returnValue;`
 
                 connection.query(sql, true, async (error, results) => {
