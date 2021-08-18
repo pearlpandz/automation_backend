@@ -11,6 +11,7 @@ const Admin = require('./../controllers/admin');
 const User = require('./../controllers/users');
 const Product = require('./../controllers/product');
 const Inventory = require('./../controllers/inventory');
+const Production = require('./../controllers/production');
 const Switch = require('./../controllers/switch');
 
 const Rooms = require('./../controllers/rooms');
@@ -54,7 +55,8 @@ router.get('/inventory/:id', middleware.checkToken, Inventory.GetInventoryProduc
 router.post('/inventory/list/admin', middleware.checkToken, Inventory.GetInventoryProductListForAdmin);
 router.post('/inventory/list/agent', middleware.checkToken, Inventory.GetInventoryProductListForAgent);
 
-
+// Production
+router.get('/production/list', middleware.checkToken, Production.GetProductProductionHistory);
 
 // Switch List
 router.get('/switch/list', middleware.checkToken, Switch.SwitchList);
