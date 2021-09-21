@@ -12,6 +12,7 @@ const User = require('./../controllers/users');
 const Product = require('./../controllers/product');
 const Inventory = require('./../controllers/inventory');
 const Production = require('./../controllers/production');
+const Transaction = require('./../controllers/transactions');
 const Switch = require('./../controllers/switch');
 
 const Rooms = require('./../controllers/rooms');
@@ -60,6 +61,12 @@ router.get('/production/list', middleware.checkToken, Production.GetProductProdu
 
 // Switch List
 router.get('/switch/list', middleware.checkToken, Switch.SwitchList);
+
+// Transactions
+router.post('/transaction/actualSale', middleware.checkToken, Transaction.ActualSale);
+router.put('/installation/:id', middleware.checkToken, Transaction.ProductInstallationUpdate);
+
+
 
 /* ------------------------------------ Customer Portal ----------------------------- */
 // auth
