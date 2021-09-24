@@ -215,7 +215,20 @@ exports.GetInventoryProductInfo = function (req, res) {
                     const _statuscode = _results[_results.length - 1][0]['@_returnValue'];
                     if (_statuscode == 200) {
                         const _res = _results[0][0];
-                        return res.status(200).send({ data: _res });
+
+                        return res.status(200).send({
+                            data: {
+                                inventoryId: _res.inventoryId,
+                                inventoryKey: _res.inventoryKey,
+                                product: JSON.parse(_res.product),
+                                configurations: JSON.parse(_res.configurations),
+                                sellerInfo: JSON.parse(_res.soldInfo),
+                                soldAt: _res.soldAt,
+                                installerInfo: JSON.parse(_res.installedInfo),
+                                installationAt: _res.installationAt,
+                                customer: JSON.parse(_res.customer)
+                            }
+                        });
                     } if (_statuscode == 404) {
                         return res.status(404).send({ message: 'Product Not found!' });
                     } else {

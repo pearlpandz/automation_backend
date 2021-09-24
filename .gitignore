@@ -78,3 +78,4 @@ typings/
 # development directories
 reports/
 package-lock.json
+.backup/
