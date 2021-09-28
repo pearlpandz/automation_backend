@@ -222,11 +222,12 @@ exports.GetInventoryProductInfo = function (req, res) {
                                 inventoryKey: _res.inventoryKey,
                                 product: JSON.parse(_res.product),
                                 configurations: JSON.parse(_res.configurations),
-                                sellerInfo: JSON.parse(_res.soldInfo),
-                                soldAt: _res.soldAt,
-                                installerInfo: JSON.parse(_res.installedInfo),
-                                installationAt: _res.installationAt,
-                                customer: JSON.parse(_res.customer)
+                                status: _res.status,
+                                sellerInfo: _res.soldInfo ? JSON.parse(_res.soldInfo) : null,
+                                soldAt: _res.soldAt ? _res.soldAt : null,
+                                installerInfo: _res.installedInfo ? JSON.parse(_res.installedInfo) : null,
+                                installationAt: _res.installationAt ? _res.installationAt : null,
+                                customer: _res.customer ? JSON.parse(_res.customer) : null
                             }
                         });
                     } if (_statuscode == 404) {
